@@ -38,7 +38,7 @@ html {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: linear-gradient(-45deg, #02ccf9ba, #061e3abf);
+  background: linear-gradient(-45deg, #5b4669bf, #2d0064bf);
 }
 
 .users-container a {
