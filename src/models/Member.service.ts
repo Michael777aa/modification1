@@ -133,8 +133,13 @@ class MemberService {
   /** SSR */
 
   public async processSignup(input: MemberInput): Promise<Member> {
+    if (!input.memberPassword) {
+      throw new Errors(HttpCode.BAD_REQUEST, Message.WRONG_PASSWORD);
+    }
+
     const salt = await bcrypt.genSalt();
     input.memberPassword = await bcrypt.hash(input.memberPassword, salt);
+
     try {
       const result = await this.memberModel.create(input);
       result.memberPassword = "";

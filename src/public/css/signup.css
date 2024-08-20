@@ -110,25 +110,13 @@ html {
   letter-spacing: 5px;
   line-height: 44px; /* 176% */
 }
-.checkbox-sign {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  margin-top: 15px;
+
+.signup-btn {
+  margin-top: 20px;
+  font-size: 24px;
+  color: #212121;
 }
-.checkbox-sign input {
-  width: 20px;
-  height: 20px;
-  color: hsl(0, 3%, 12%);
-}
-.checkbox-sign label {
-  font-size: 18px;
-  margin-top: 7px;
-  color: hsl(0, 3%, 12%);
-}
-.checkbox-sign label a {
-  color: hsl(0, 84%, 59%);
-}
+
 .signup-frame {
   position: relative;
   height: auto;
@@ -155,6 +143,13 @@ html {
   display: flex;
   flex-direction: column;
 }
+.sign-up-frame .images-warnings {
+  display: block;
+  text-align: center;
+  font-size: 30px;
+  line-height: 2.9;
+  color: #212121;
+}
 
 .sign-up-frame label {
   margin-bottom: 0px;
@@ -163,6 +158,7 @@ html {
   font-weight: 400;
   font-size: 16px;
   line-height: 18px;
+  color: #212121;
 }
 
 .sign-up-frame input {
@@ -184,12 +180,18 @@ html {
 }
 
 .media-text {
+  color: #212121;
   font-family: sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
   line-height: 18px;
-  color: hsl(0, 3%, 12%);
+}
+.right-preview-image span {
+  position: relative;
+  top: -10px;
+
+  font-size: 16px;
 }
 
 .file-box input[type="file"] {
@@ -237,12 +239,7 @@ html {
   position: relative;
   top: 23px;
 }
-.right-preview-image span {
-  position: relative;
-  top: -10px;
-  color: #cac3ca;
-  font-size: 16px;
-}
+
 .thumbnail-desc {
   margin-top: 25px;
   font-family: "GT Walsheim Pro";
@@ -277,19 +274,3 @@ html {
     background-position: 0% 50%;
   }
 }
-
-/* <div class="sign-input-frame" style="justify-content: space-between">
-          <div class="checkbox-sign">
-            <input
-              type="checkbox"
-              name="memberNick"
-              class="member-nick"
-              placeholder="Username"
-              value=""
-            />
-            <label
-              >I agree to all the <a href="">Terms</a> and
-              <a href="">Privacy Policies</a></label
-            >
-          </div>
-        </div> */

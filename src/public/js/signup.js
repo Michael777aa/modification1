@@ -27,6 +27,8 @@ $(function () {
 function validateSignupForm() {
   const memberNick = $(".member-nick").val();
   const memberPhone = $(".member-phone").val();
+  const memberFirstName = $(".member-firstName").val();
+  const memberLastName = $(".member-lastName").val();
   const memberPassword = $(".member-password").val();
   const confirmPassword = $(".confirm-password").val();
 
@@ -34,7 +36,9 @@ function validateSignupForm() {
     memberNick === "" ||
     memberPhone === "" ||
     memberPassword === "" ||
-    confirmPassword === ""
+    confirmPassword === "" ||
+    memberFirstName === "" ||
+    memberLastName === ""
   ) {
     alert("Please insert all required inputs");
     return false;

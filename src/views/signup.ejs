@@ -5,7 +5,6 @@
 <body>
   <div class="container">
     <div class="main-container ">
-      <div class="shadow-title">signup</div>
       <div class="main-signup"></div>
     </div>
     <form
@@ -46,8 +45,8 @@
             <label>First Name</label>
             <input
               type="text"
-              name="memberNick"
-              class="member-nick"
+              name="member-firstName"
+              class="member-firstName"
               placeholder="john.doe@gmail.com"
               value=""
             />
@@ -56,8 +55,8 @@
             <label>Last Name</label>
             <input
               type="text"
-              name="memberNick"
-              class="member-nick"
+              name="member-lastName"
+              class="member-lastName"
               placeholder="john.doe@gmail.com"
               value=""
             />
@@ -109,11 +108,12 @@
           </div>
         </div>
         <div class="sign-input-frame" style="justify-content: space-between">
+          <div class="sign-up-frame right-preview-image">
+            <span class="media-text">Preview Image</span>
+            <img class="upload-img-frame" src="/img/download.png" />
+          </div>
           <div class="sign-up-frame image-inserting">
-            <label>
-              Please upload image. Attention: only jpg, jpeg, and png formats
-              are permitted!
-            </label>
+            <label for="">Image</label>
             <div
               class="file-box bs3-primary preview-image"
               style="margin-top: 5px; display: flex"
@@ -133,34 +133,16 @@
                 name="memberImage"
               />
             </div>
-            <div class="sign-input-frame">
-              <div class="checkbox-sign">
-                <input
-                  type="checkbox"
-                  name="memberNick"
-                  class="member-nick"
-                  placeholder="Username"
-                  value=""
-                />
-                <label
-                  >I agree to all the <a href="">Terms</a> and
-                  <a href="">Privacy Policies</a></label
-                >
-              </div>
-            </div>
-          </div>
-
-          <div class="sign-up-frame right-preview-image">
-            <span class="media-text">Preview Image</span>
-            <img class="upload-img-frame" src="/img/default.jpeg" />
+            <label class="images-warnings">
+              Please upload image. <br />
+              Attention: only jpg, jpeg, and <br />
+              png formats are permitted!
+            </label>
+            <button class="signup-btn btn" name="signup" type="submit">
+              Signup
+            </button>
           </div>
         </div>
-
-        <input name="memberType" value="RESTAURANT" hidden />
-
-        <button class="signup-btn btn" name="signup" type="submit">
-          Signup
-        </button>
       </div>
     </form>
   </div>

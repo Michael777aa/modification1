@@ -36,6 +36,7 @@ html {
 
 .main-container .navigation-menu {
   position: relative;
+  top: 12px;
   z-index: 10000;
   color: #efefee;
   font-size: 40px;
@@ -228,4 +229,12 @@ body {
 }
 .case-study-images li.show .case-study-title {
   opacity: 1;
+}
+.nav {
+  gap: 10px;
+}
+.nav .nav-item a {
+  background-color: #fff;
+  color: #2d2d2d;
+  border-radius: 10px;
 }

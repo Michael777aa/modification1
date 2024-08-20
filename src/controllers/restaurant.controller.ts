@@ -7,7 +7,6 @@ import { LoginInput } from "../libs/types/member";
 import { Session } from "express-session";
 import Errors, { HttpCode, Message } from "../libs/Error";
 
-
 const memberService = new MemberService();
 
 const restaurantController: T = {};
@@ -48,11 +47,13 @@ restaurantController.processSignup = async (
   try {
     console.log("processSignup");
     const file = req.file;
-    if (!file) throw new Errors(HttpCode.BAD_REQUEST, Message.SOMETHING_WENT_WRONG);
+    if (!file)
+      throw new Errors(HttpCode.BAD_REQUEST, Message.SOMETHING_WENT_WRONG);
     const newMember: MemberInput = req.body;
     newMember.memberImage = file?.path;
     newMember.memberType = MemberType.RESTAURANT;
     const result = await memberService.processSignup(newMember);
+    console.log(result);
 
     req.session.member = result;
     req.session.save(function () {
@@ -104,13 +105,12 @@ restaurantController.logout = async (req: AdminRequest, res: Response) => {
   }
 };
 
-
 restaurantController.getUsers = async (req: Request, res: Response) => {
   try {
     console.log("getUsers");
     const result = await memberService.getUsers();
 
-    res.render("users", {users: result});
+    res.render("users", { users: result });
   } catch (err) {
     console.log("Error, getUsers:", err);
     res.redirect("/admin/login");
@@ -121,11 +121,11 @@ restaurantController.updateChosenUser = async (req: Request, res: Response) => {
   try {
     console.log("updateChosenUser");
     const result = await memberService.updateChosenUser(req.body);
-    
-    res.status(HttpCode.OK).json({data: result});
+
+    res.status(HttpCode.OK).json({ data: result });
   } catch (err) {
     console.log("Error, updateChosenUser:", err);
-    if(err instanceof Errors) res.status(err.code).json(err);
+    if (err instanceof Errors) res.status(err.code).json(err);
     else res.status(Errors.standard.code).json(Errors.standard);
   }
 };

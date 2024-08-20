@@ -1,10 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import {
-  ProductCollection,
-  ProductSize,
-  ProductStatus,
-  ProductVolume,
-} from "../libs/enums/product.enum";
+import { ProductCollection, ProductStatus } from "../libs/enums/product.enum";
 
 // Schema first & Code
 
@@ -36,16 +31,9 @@ const productSchema = new Schema(
       required: true,
     },
 
-    productSize: {
+    productAuthor: {
       type: String,
-      enum: ProductSize,
-      default: ProductSize.NORMAL,
-    },
-
-    productVolume: {
-      type: String,
-      enum: ProductVolume,
-      default: ProductVolume.ONE,
+      required: true,
     },
 
     productDesc: {

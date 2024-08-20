@@ -1,3 +1,34 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background-color: #1f2029;
+  color: #c4c3ca;
+  font-family: "Muli", sans-serif;
+}
+html {
+  scroll-behavior: smooth;
+}
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+.main-container {
+  width: 1300px;
+  margin: 0 auto;
+  position: fixed;
+  background-color: #fff;
+  height: 100%;
+}
+.nav {
+  gap: 10px;
+}
+.nav .nav-item a {
+  background-color: #fff;
+  color: #2d2d2d;
+  border-radius: 10px;
+}
 .users-container {
   position: relative;
   width: auto;
@@ -7,16 +38,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: linear-gradient(-45deg, #110303bf, #e37813, #011c1aba, #968383);
+  background: linear-gradient(-45deg, #02ccf9ba, #061e3abf);
 }
 
 .users-container a {
   text-decoration: none;
   color: #000000;
-}
-
-.users-container .nav-item a {
-  color: #e3c08d;
 }
 
 .users-container .nav-item a.disabled {
@@ -65,7 +92,7 @@
 
 .users-container .board .user-table {
   position: relative;
-  width: 85%;
+  width: 94%;
   height: auto;
   margin-top: 30px;
   display: flex;

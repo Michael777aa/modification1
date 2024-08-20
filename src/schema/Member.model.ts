@@ -22,6 +22,12 @@ const memberSchema = new Schema(
       index: { unique: true, sparse: true },
       required: true,
     },
+    memberFirstName: {
+      type: String,
+    },
+    memberLastName: {
+      type: String,
+    },
 
     memberPhone: {
       type: String,
