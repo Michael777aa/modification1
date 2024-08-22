@@ -2,136 +2,131 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  background-color: #1f2029;
-  color: #c4c3ca;
-  font-family: "Muli", sans-serif;
+  background: linear-gradient(-45deg, #ff6f61, #5b86e5);
+  color: #333;
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
 }
+
 html {
   scroll-behavior: smooth;
 }
+
 .container {
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  width: 100%;
 }
+
 .main-container {
-  width: 1300px;
-  margin: 0 auto;
-  position: fixed;
+  width: 100%;
+  max-width: 1200px;
+  margin: 20px auto;
   background-color: #fff;
-  height: 100%;
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  overflow: hidden;
 }
+
 .nav {
-  gap: 10px;
+  display: flex;
+  gap: 15px;
+  background: #fff;
+  padding: 15px;
+  border-bottom: 1px solid #e0e0e0;
 }
+
 .nav .nav-item a {
-  background-color: #fff;
-  color: #2d2d2d;
+  color: #5b86e5;
+  padding: 10px 15px;
   border-radius: 10px;
-}
-.users-container {
-  position: relative;
-  width: auto;
-  height: auto;
-  min-width: 100%;
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: linear-gradient(-45deg, #02ccf9ba, #061e3abf);
+  transition: all 0.3s ease;
+  font-weight: 600;
 }
 
-.users-container a {
-  text-decoration: none;
-  color: #000000;
+.nav .nav-item a:hover {
+  background-color: #ff6034;
+  color: #fff;
 }
 
-.users-container .nav-item a.disabled {
-  color: #898071;
+.users-frame {
+  padding: 20px;
+  background: #f9f9f9;
 }
 
-.users-container .navigation-menu {
-  position: absolute;
-  z-index: 10000;
-  top: 1%;
-  color: #efefee;
-  font-size: 40px;
-  font-family: monospace;
+.board {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.05);
 }
 
-.users-container .users-frame {
-  position: relative;
-  padding-bottom: 80px;
+.user-table {
+  margin-top: 20px;
+}
+
+.header-name {
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+}
+
+.table {
   width: 100%;
-  height: auto;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  margin-top: 15px;
+  border-collapse: collapse;
 }
 
-.users-container .users-frame .board {
-  position: relative;
-  margin-top: 100px;
-  width: 1320px;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.users-container .board .dishes-table {
-  position: relative;
-  width: 100%;
-  height: auto;
-  margin-top: 30px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.users-container .board .user-table {
-  position: relative;
-  width: 94%;
-  height: auto;
-  margin-top: 30px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.users-container .header-name {
-  font-family: "Source Serif Pro";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 30px;
-  line-height: 25px;
-  color: #ffffff;
-}
-
-.users-container select:focus {
-  min-width: 90%;
-  width: auto;
-}
-
-.users-container .spec-select {
-  position: relative;
-  padding: 0px 7px;
-  /*width: 100%;*/
-  height: 27px;
-  background: #ffffff;
-  border: 1px solid #dddddd;
-  border-radius: 8px;
-  font-family: "GT Walsheim Pro";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 15px;
-  line-height: 26px;
-  color: #4f547b;
-}
-
-.users-container table td,
-table th {
+.table th,
+.table td {
+  padding: 12px 15px;
   text-align: center;
-  vertical-align: middle;
+  border: 1px solid #e0e0e0;
+  background-color: #fff;
+}
+
+.table th {
+  background-color: #5b86e5;
+  color: #fff;
+}
+
+.table td {
+  color: #333;
+}
+
+.spec-select {
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #e0e0e0;
+  background-color: #fff;
+  color: #333;
+  transition: background-color 0.3s ease;
+}
+
+.spec-select:focus {
+  background-color: #5b86e5;
+  color: #fff;
+}
+
+.products-container {
+  padding: 30px;
+  background: linear-gradient(-45deg, #ff6f61, #5b86e5);
+}
+
+.products-container .media-frame .upload-img-box {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f7f7f7;
+  border-radius: 10px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.products-container .media-frame .upload-img-box:hover {
+  transform: scale(1.05);
 }

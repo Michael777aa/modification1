@@ -1,57 +1,8 @@
-body {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  background-color: #1f2029;
-  color: #c4c3ca;
-  font-family: "Muli", sans-serif;
-}
-html {
-  scroll-behavior: smooth;
-}
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-}
-.main-container {
-  width: 1300px;
-  margin: 0 auto;
-  position: fixed;
-  background-color: #fff;
-  height: 100%;
-}
-
-.shadow-title {
-  position: fixed;
-  top: 0;
-  margin-top: 30px;
-  left: 20px;
-  width: 100%;
-  text-align: left;
-  font-family: "Muli", sans-serif;
-  -webkit-writing-mode: vertical-lr;
-  writing-mode: vertical-lr;
-  font-size: 16vw;
-  line-height: 1;
-  color: rgba(200, 200, 200, 0.1);
-  background: linear-gradient(
-    90deg,
-    rgba(200, 200, 200, 0),
-    rgba(200, 200, 200, 0.35)
-  );
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-weight: 900;
-  z-index: 1;
-}
-
 .upper-signup {
+  padding: 10px 3%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 0;
 }
 .left-return {
   display: flex;
@@ -104,7 +55,6 @@ html {
   text-align: center;
   font-family: sans-serif;
   font-size: 30px;
-  margin-top: 100px;
   font-style: normal;
   font-weight: 500;
   letter-spacing: 5px;
@@ -112,24 +62,15 @@ html {
 }
 
 .signup-btn {
-  margin-top: 20px;
   font-size: 24px;
-  color: #212121;
-}
-
-.signup-frame {
-  position: relative;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  border-radius: 10px;
-  background: #ffffff;
-  padding: 25px;
+  background-color: #00b7ff;
+  color: #fff;
 }
 
 .signup-frame .sign-input-frame {
   position: relative;
   width: 100%;
+  padding: 0 3%;
   height: auto;
   display: flex;
   flex-direction: row;
@@ -145,9 +86,9 @@ html {
 }
 .sign-up-frame .images-warnings {
   display: block;
-  text-align: center;
-  font-size: 30px;
-  line-height: 2.9;
+  text-align: start;
+  font-size: 22px;
+  line-height: 2.01;
   color: #212121;
 }
 
@@ -174,7 +115,8 @@ html {
 
 .upload-img-frame {
   width: 100%;
-  height: 400px;
+
+  height: 298px;
   display: flex;
   border-radius: 15px;
 }
@@ -239,38 +181,109 @@ html {
   position: relative;
   top: 23px;
 }
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(-45deg, #ff0000bf, #2b00ffba);
+  color: #c4c3ca;
+  font-family: "Muli", sans-serif;
+  margin: 0;
+}
 
-.thumbnail-desc {
-  margin-top: 25px;
-  font-family: "GT Walsheim Pro";
-  font-style: normal;
-  font-weight: 400;
+html {
+  scroll-behavior: smooth;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.signup-frame {
+  width: 100%; /* Make sure the width is consistent */
+  max-width: 700px; /* Optional: limit the max width to prevent it from growing too much */
+  padding-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.signup-btn {
+  width: 100%; /* Ensures the button doesn't affect the layout */
+  font-size: 24px;
+  background-color: #00b7ff;
+  color: #fff;
+  border: none; /* Ensure no border changes on focus */
+  padding: 15px;
+  margin-top: 15px;
+  cursor: pointer;
+}
+
+.signup-btn:hover,
+.signup-btn:active,
+.signup-btn:focus {
+  outline: none; /* Remove any outline */
+  background-color: #0099cc; /* Change color on hover/focus */
+}
+
+.sign-input-frame {
+  width: 100%; /* Make sure width is consistent */
+  padding: 0 3%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.sign-up-frame {
+  width: 49%;
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sign-up-frame input {
+  padding-left: 20px;
+  width: 100%;
+  height: 55px;
+  background: #f6f5f5;
+  border: 1px solid #dddddd;
+  border-radius: 8px;
+  box-sizing: border-box; /* Ensures padding doesn't affect width */
+}
+
+.right-preview-image {
+  width: 100%;
+  text-align: center;
+}
+
+.file-box .upload-name {
+  padding: 20px;
+  width: calc(100% - 138px); /* Subtract the width of the upload button */
+  height: 55px;
+  background: #ffffff;
+  border: 1px solid #dddddd;
+  border-radius: 8px 0 0 8px;
+}
+
+.file-box label {
+  width: 138px;
+  height: 55px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #6a7a99;
+  border-radius: 0 8px 8px 0;
   font-size: 15px;
-  line-height: 26px;
-  color: #4f547b;
+  color: #ffffff;
+  cursor: pointer;
 }
 
-/* Background animation */
-@-webkit-keyframes gradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-@keyframes gradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+.upload-img-frame {
+  width: 100%;
+  height: 280px;
+  display: flex;
+  border-radius: 15px;
 }

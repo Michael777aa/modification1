@@ -2,139 +2,46 @@
 
 <link rel="stylesheet" type="text/css" href="/css/home.css" />
 
-<body onLoad="initClock()">
-  <div class="container">
-    <div class="main-container ">
-      <div class="navigation-menu">
+<body>
+  <div class="home-container">
+    <header>
+      <nav class="navigation-menu">
         <ul class="nav justify-content-center">
-          <li class="nav-item" style="cursor: pointer">
+          <li class="nav-item">
             <a class="nav-link active" href="/admin">Home</a>
           </li>
           <% if(!member) { %>
-          <li class="nav-item" style="cursor: pointer">
+          <li class="nav-item">
             <a class="nav-link" href="/admin/signup">Signup</a>
           </li>
-          <li class="nav-item" style="cursor: pointer">
+          <li class="nav-item">
             <a class="nav-link" href="/admin/login">Login</a>
           </li>
           <% } else { %>
-          <li class="nav-item" style="cursor: pointer">
+          <li class="nav-item">
             <a class="nav-link" href="/admin/product/all">Menu</a>
           </li>
-          <li class="nav-item" style="cursor: pointer">
+          <li class="nav-item">
             <a class="nav-link" href="/admin/user/all">Users</a>
           </li>
-          <li
-            class="nav-item"
-            style="cursor: pointer"
-            onclick="return confirm('Do you want to logout?')"
-          >
-            <a class="nav-link" href="/admin/logout">Logout</a>
+          <li class="nav-item">
+            <a
+              class="nav-link logout"
+              href="/admin/logout"
+              onclick="return confirm('Do you want to logout?')"
+              >Logout</a
+            >
           </li>
           <% } %>
         </ul>
+      </nav>
+      <div class="welcome">
+        <h1>Welcome to the Homepage</h1>
       </div>
-
-      <div
-        class="section-parallax parallax-00"
-        style="background-image: url('http://www.ivang-design.com/svg-load/parallax/parallax-0.png');"
-      ></div>
-      <div
-        class="section-parallax parallax-01"
-        style="background-image: url('http://www.ivang-design.com/svg-load/parallax/parallax-01.png');"
-      ></div>
-
-      <div class="section full-height">
-        <div class="section-title-wrap">
-          <div class="row">
-            <div class="col-12 text-center">
-              <p>Let's do magic</p>
-              <h1>chase your<br />passion</h1>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="section full-height ">
-        <ul class="case-study-wrapper">
-          <li class="case-study-name">
-            <a href="#" class="hover-target">light</a>
-          </li>
-          <li class="case-study-name">
-            <a href="#" class="hover-target">flare</a>
-          </li>
-          <li class="case-study-name">
-            <a href="#" class="hover-target">nature</a>
-          </li>
-          <li class="case-study-name">
-            <a href="#" class="hover-target">fire</a>
-          </li>
-        </ul>
-        <ul class="case-study-images">
-          <li>
-            <div class="img-hero-background">
-              <img
-                src="http://www.ivang-design.com/svg-load/parallax/nature.jpg"
-                alt="nature"
-              />
-            </div>
-            <div class="case-study-title">
-              Be the change that you wish to see in the world
-            </div>
-          </li>
-          <li>
-            <div class="img-hero-background">
-              <img
-                src="http://www.ivang-design.com/svg-load/parallax/flare.jpg"
-                alt="flare"
-              />
-            </div>
-            <div class="case-study-title">
-              People with purpose, goals, and visions have no time for drama.
-              They invest their energy in creativity and focus on living a
-              positive life.
-            </div>
-          </li>
-          <li>
-            <div class="img-hero-background">
-              <img
-                src="http://www.ivang-design.com/svg-load/parallax/fire.jpg"
-                alt="fire"
-              />
-            </div>
-            <div class="case-study-title">
-              Life is never fair, and perhaps it is a good thing for most of us
-              that it is not.
-            </div>
-          </li>
-          <li>
-            <div class="img-hero-background">
-              <img
-                src="http://www.ivang-design.com/svg-load/parallax/light.jpg"
-                alt="light"
-              />
-            </div>
-            <div class="case-study-title">
-              Don't be afraid to give up the good to go for the great.
-            </div>
-          </li>
-        </ul>
-      </div>
-
-      <div class="cursor" id="cursor"></div>
-      <div class="cursor2" id="cursor2"></div>
-      <div class="cursor3" id="cursor3"></div>
-
-      <div id="timedate">
-        <a id="mon">January</a>
-        <a id="d">1</a>, <a id="y">0</a><br />
-        <a id="h">12</a> : <a id="m">00</a>: <a id="s">00</a>:
-        <a id="mi">000</a>
-      </div>
-    </div>
+    </header>
   </div>
-</body>
 
-<script type="text/javascript" src="/js/home.js"></script>
+  <script type="text/javascript" src="/js/home.js"></script>
+</body>
 
 <%- include('includes/footer') %>
