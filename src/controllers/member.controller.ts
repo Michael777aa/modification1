@@ -79,7 +79,7 @@ memberController.logout = (req: ExtendedRequest, res: Response) => {
     res.cookie("accessToken", null, { maxAge: 0, httpOnly: true });
     res.status(HttpCode.OK).json({ logout: true });
   } catch (err) {
-    console.log("Error: logout", err);
+    console.log("Error: logout", err); //
     if (err instanceof Errors) res.status(err.code).json(err);
     else res.status(Errors.standard.code).json(Errors.standard);
   }
