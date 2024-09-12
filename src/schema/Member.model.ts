@@ -28,6 +28,9 @@ const memberSchema = new Schema(
     memberLastName: {
       type: String,
     },
+    memberEmail: {
+      type: String,
+    },
 
     memberPhone: {
       type: String,
