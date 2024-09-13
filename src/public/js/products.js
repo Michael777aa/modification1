@@ -45,9 +45,8 @@ function validateForm() {
   const productName = $(".product-name").val();
   const productPrice = $(".product-price").val();
   const productLeftCount = $(".product-left-count").val();
-  const productCollection = $(".product-collection").val();
-  const productAuthor = $(".product-size").val();
-  const productDesc = $(".product-desc").val();
+  const productCollection = $(".product-desc").val();
+  const productDesc = $(".product-name").val();
   const productStatus = $(".product-status").val();
 
   if (
@@ -55,7 +54,6 @@ function validateForm() {
     productPrice === "" ||
     productLeftCount === "" ||
     productCollection === "" ||
-    productAuthor === "" ||
     productDesc === "" ||
     productStatus === ""
   ) {
