@@ -11,7 +11,10 @@ export interface Product {
   productStatus: ProductStatus;
   productCollection: ProductCollection;
   productName: string;
+  productSale?: number;
+  productSold?: number;
   productPrice: number;
+  productSalePrice?: number;
   productLeftCount: number;
   productSize: ProductSize;
   productVolume: number;
@@ -36,7 +39,10 @@ export interface ProductInput {
   productName: string;
   productPrice: number;
   productLeftCount: number;
+  productSale?: number;
+  productSold?: number;
   productSize?: ProductSize;
+  productSalePrice?: number;
   productVolume?: number;
   productDesc?: string;
   productImages?: string[];
@@ -50,6 +56,9 @@ export interface ProductUpdateInput {
   productCollection?: ProductCollection;
   productName?: string;
   productPrice?: number;
+  productSale?: number;
+  productSold?: number;
+  productSalePrice?: number;
   productLeftCount?: number;
   productSize?: ProductSize;
   productVolume?: number;

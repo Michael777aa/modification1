@@ -30,6 +30,9 @@ const productSchema = new Schema(
       type: Number,
       required: true,
     },
+    productSalePrice: {
+      type: Number,
+    },
 
     productLeftCount: {
       type: Number,
@@ -40,6 +43,17 @@ const productSchema = new Schema(
       type: String,
       enum: ProductSize,
       default: ProductSize.NORMAL,
+    },
+    productSold: {
+      type: Number,
+      default: 0,
+    },
+
+    productSale: {
+      type: Number,
+      min: 0,
+      max: 100,
+      default: 0,
     },
 
     productVolume: {

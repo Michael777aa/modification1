@@ -4,7 +4,7 @@ import { T } from "../libs/types/common";
 import ProductService from "../models/Product.service";
 import { AdminRequest, ExtendedRequest } from "../libs/types/member";
 import { ProductInput, ProductInquiry } from "../libs/types/product";
-import { ProductCollection } from "../libs/enums/product.enum";
+import { ProductCollection, ProductStatus } from "../libs/enums/product.enum";
 
 const productService = new ProductService();
 
@@ -93,11 +93,21 @@ productController.createNewProduct = async (
 productController.updateChosenProduct = async (req: Request, res: Response) => {
   try {
     console.log("updateChosenProduct");
-
     const id = req.params.id;
-
-    const result = await productService.updateChosenProduct(id, req.body);
-
+    const { productSale, productStatus, productPrice } = req.body;
+    const numericProductSale = Number(productSale);
+    const numericProductPrice = Number(productPrice);
+    let updatePayload: any = { ...req.body };
+    if (
+      productStatus === ProductStatus.ONSALE &&
+      numericProductSale !== undefined
+    ) {
+      updatePayload.productSalePrice = calculateDiscountedPrice(
+        numericProductPrice,
+        numericProductSale
+      );
+    }
+    const result = await productService.updateChosenProduct(id, updatePayload);
     res.status(HttpCode.OK).json({ data: result });
   } catch (err) {
     console.log("Error, updateChosenProduct", err);
@@ -105,5 +115,11 @@ productController.updateChosenProduct = async (req: Request, res: Response) => {
     else res.status(Errors.standard.code).json(Errors.standard);
   }
 };
-
+function calculateDiscountedPrice(
+  originalPrice: number,
+  discountPercentage: number
+): number {
+  const discountedPrice = originalPrice * (1 - discountPercentage / 100);
+  return parseFloat(discountedPrice.toFixed(6));
+}
 export default productController;
