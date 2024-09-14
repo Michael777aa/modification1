@@ -89,7 +89,6 @@ productController.createNewProduct = async (
     );
   }
 };
-
 productController.updateChosenProduct = async (req: Request, res: Response) => {
   try {
     console.log("updateChosenProduct");
@@ -97,11 +96,9 @@ productController.updateChosenProduct = async (req: Request, res: Response) => {
     const { productSale, productStatus, productPrice } = req.body;
     const numericProductSale = Number(productSale);
     const numericProductPrice = Number(productPrice);
+
     let updatePayload: any = { ...req.body };
-    if (
-      productStatus === ProductStatus.ONSALE &&
-      numericProductSale !== undefined
-    ) {
+    if (productStatus === ProductStatus.ONSALE && !isNaN(numericProductSale)) {
       updatePayload.productSalePrice = calculateDiscountedPrice(
         numericProductPrice,
         numericProductSale
@@ -122,4 +119,5 @@ function calculateDiscountedPrice(
   const discountedPrice = originalPrice * (1 - discountPercentage / 100);
   return parseFloat(discountedPrice.toFixed(6));
 }
+
 export default productController;

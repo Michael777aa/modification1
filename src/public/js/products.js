@@ -1,16 +1,5 @@
 console.log("Products frontend javascript file");
 $(function () {
-  $(".product-collection").on("change", () => {
-    const selectedValue = $(".product-collection").val();
-    if (selectedValue === "DRINK") {
-      $("#product-volume").show();
-      $("#product-collection").hide();
-    } else {
-      $("#product-volume").hide();
-      $("#product-collection").show();
-    }
-  });
-
   $("#process-btn").on("click", () => {
     $(".dish-container").slideToggle(500);
     $("#process-btn").css("display", "none");
@@ -32,11 +21,48 @@ $(function () {
       });
       console.log("response", response);
       const result = response.data;
-      if (result.data) {
-        $(".new-product-status").blur();
-      } else alert("Product update failed!");
+      if (result.data) $(".new-product-status").blur();
     } catch (err) {
       console.log(err);
+      alert("Product update failed!");
+    }
+  });
+  $(".update-sale-btn").on("click", async function (e) {
+    const id = $(this).data("id");
+    const productSale = $(`#sale-${id}`).val();
+    const productPrice = $(`#price-${id}`).text(); // Assuming productPrice is displayed as text
+    const productStatus = $(`#${id}`).val();
+
+    // Validate sale percentage and price
+    if (productStatus !== "ONSALE") {
+      alert(
+        "Sale percentage can only be updated for products that are ONSALE!"
+      );
+      return;
+    }
+
+    // Calculate the sale price
+    const numericProductPrice = parseFloat(productPrice);
+    const numericProductSale = parseFloat(productSale);
+    const productSalePrice =
+      numericProductPrice - (numericProductPrice * numericProductSale) / 100;
+
+    try {
+      // Send a POST request to update the sale percentage and sale price
+      const response = await axios.post(`/admin/product/${id}`, {
+        productSale: numericProductSale,
+        productSalePrice: productSalePrice,
+      });
+
+      const result = response.data;
+      if (result.data) {
+        alert("Product sale percentage and price updated successfully!");
+        $(`#sale-price-${id}`).text(productSalePrice.toFixed(2)); // Update sale price display
+      } else {
+        alert("Product update failed!");
+      }
+    } catch (err) {
+      console.log("Error:", err);
       alert("Product update failed!");
     }
   });
