@@ -1,5 +1,14 @@
 $(function () {
   // Handle product status change
+  $("#process-btn").on("click", () => {
+    $(".dish-container").slideToggle(500);
+    $("#process-btn").css("display", "none");
+  });
+
+  $("#cancel-btn").on("click", () => {
+    $(".dish-container").slideToggle(100);
+    $("#cancel-btn").css("display", "flex");
+  });
   $(".new-product-status").on("change", async function (e) {
     const id = e.target.id;
     const productStatus = $(`#${id}.new-product-status`).val();
@@ -20,7 +29,6 @@ $(function () {
         ["Process", "Delete", "Pause", "ONSALE"].indexOf(productStatus) === -1
       ) {
         $(`#sale-${id}`).prop("disabled", true); // Disable sale input
-        $(`#sale-price-${id}`).text("N/A"); // Set sale price to N/A
       } else if (productStatus === "ONSALE") {
         $(`#sale-${id}`).prop("disabled", false); // Enable sale input
       }
