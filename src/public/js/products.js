@@ -15,13 +15,17 @@ $(function () {
       console.log("response", response);
       const result = response.data;
 
-      // Check if status is ONSALE to allow sale percentage update
-      if (result.data && productStatus !== "ONSALE") {
-        // Set sale price to N/A if the product is not on sale
-        $(`#sale-price-${id}`).text("N/A");
-      } else {
-        $(".new-product-status").blur();
+      // Disable sale input if product is not ONSALE or status is Process/Delete/Pause
+      if (
+        ["Process", "Delete", "Pause", "ONSALE"].indexOf(productStatus) === -1
+      ) {
+        $(`#sale-${id}`).prop("disabled", true); // Disable sale input
+        $(`#sale-price-${id}`).text("N/A"); // Set sale price to N/A
+      } else if (productStatus === "ONSALE") {
+        $(`#sale-${id}`).prop("disabled", false); // Enable sale input
       }
+
+      $(".new-product-status").blur();
     } catch (err) {
       console.log(err);
       alert("Product update failed!");
@@ -53,13 +57,13 @@ $(function () {
       // Send a POST request to update the sale percentage and sale price
       const response = await axios.post(`/admin/product/${id}`, {
         productSale: numericProductSale,
-        productSalePrice: productSalePrice,
+        productSalePrice: Math.floor(productSalePrice), // Round down to nearest integer
       });
 
       const result = response.data;
       if (result.data) {
         alert("Product sale percentage and price updated successfully!");
-        $(`#sale-price-${id}`).text(productSalePrice.toFixed(0)); // Update sale price display
+        $(`#sale-price-${id}`).text(Math.floor(productSalePrice)); // Display the sale price as an integer
       } else {
         alert("Product update failed!");
       }
