@@ -1,17 +1,9 @@
-console.log("Products frontend javascript file");
 $(function () {
-  $("#process-btn").on("click", () => {
-    $(".dish-container").slideToggle(500);
-    $("#process-btn").css("display", "none");
-  });
-
-  $("#cancel-btn").on("click", () => {
-    $(".dish-container").slideToggle(100);
-    $("#cancel-btn").css("display", "flex");
-  });
+  // Handle product status change
   $(".new-product-status").on("change", async function (e) {
     const id = e.target.id;
     const productStatus = $(`#${id}.new-product-status`).val();
+
     console.log("id:", id);
     console.log("productstatus", productStatus);
 
@@ -19,29 +11,39 @@ $(function () {
       const response = await axios.post(`/admin/product/${id}`, {
         productStatus: productStatus,
       });
+
       console.log("response", response);
       const result = response.data;
-      if (result.data) $(".new-product-status").blur();
+
+      // Check if status is ONSALE to allow sale percentage update
+      if (result.data && productStatus !== "ONSALE") {
+        // Set sale price to N/A if the product is not on sale
+        $(`#sale-price-${id}`).text("N/A");
+      } else {
+        $(".new-product-status").blur();
+      }
     } catch (err) {
       console.log(err);
       alert("Product update failed!");
     }
   });
+
+  // Handle sale percentage update
   $(".update-sale-btn").on("click", async function (e) {
     const id = $(this).data("id");
     const productSale = $(`#sale-${id}`).val();
     const productPrice = $(`#price-${id}`).text(); // Assuming productPrice is displayed as text
-    const productStatus = $(`#${id}`).val();
+    const productStatus = $(`#${id}.new-product-status`).val();
 
     // Validate sale percentage and price
     if (productStatus !== "ONSALE") {
       alert(
-        "Sale percentage can only be updated for products that are ONSALE!"
+        "Sale percentage can only be updated for products that are 'ONSALE'!"
       );
       return;
     }
 
-    // Calculate the sale price
+    // Calculate the sale price if the product is ONSALE
     const numericProductPrice = parseFloat(productPrice);
     const numericProductSale = parseFloat(productSale);
     const productSalePrice =
@@ -57,7 +59,7 @@ $(function () {
       const result = response.data;
       if (result.data) {
         alert("Product sale percentage and price updated successfully!");
-        $(`#sale-price-${id}`).text(productSalePrice.toFixed(2)); // Update sale price display
+        $(`#sale-price-${id}`).text(productSalePrice.toFixed(0)); // Update sale price display
       } else {
         alert("Product update failed!");
       }
@@ -67,40 +69,3 @@ $(function () {
     }
   });
 });
-function validateForm() {
-  const productName = $(".product-name").val();
-  const productPrice = $(".product-price").val();
-  const productLeftCount = $(".product-left-count").val();
-  const productCollection = $(".product-desc").val();
-  const productDesc = $(".product-name").val();
-  const productStatus = $(".product-status").val();
-
-  if (
-    productName === "" ||
-    productPrice === "" ||
-    productLeftCount === "" ||
-    productCollection === "" ||
-    productDesc === "" ||
-    productStatus === ""
-  ) {
-    alert("Please insert all required inputs");
-    return false;
-  } else return true;
-}
-function previewFileHandler(input, order) {
-  const imgClassName = input.className;
-  const file = $(`.${imgClassName}`).get(0).files[0],
-    fileType = file["type"],
-    validImageType = ["image/jpg", "image/jpeg", "image/png"];
-  if (!validImageType.includes(fileType)) {
-    alert("Please, insert only jpeg, jpg and png!");
-  } else {
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = function () {
-        $(`#image-section-${order}`).attr("src", reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  }
-}
