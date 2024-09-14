@@ -9,26 +9,23 @@ $(function () {
     $(".dish-container").slideToggle(100);
     $("#cancel-btn").css("display", "flex");
   });
+
   $(".new-product-status").on("change", async function (e) {
     const id = e.target.id;
     const productStatus = $(`#${id}.new-product-status`).val();
-
-    console.log("id:", id);
-    console.log("productstatus", productStatus);
 
     try {
       const response = await axios.post(`/admin/product/${id}`, {
         productStatus: productStatus,
       });
 
-      console.log("response", response);
-      const result = response.data;
-
       // Disable sale input if product is not ONSALE or status is Process/Delete/Pause
       if (
         ["Process", "Delete", "Pause", "ONSALE"].indexOf(productStatus) === -1
       ) {
         $(`#sale-${id}`).prop("disabled", true); // Disable sale input
+        // Set sale price to N/A or remove it
+        $(`#sale-price-${id}`).text("");
       } else if (productStatus === "ONSALE") {
         $(`#sale-${id}`).prop("disabled", false); // Enable sale input
       }
@@ -55,7 +52,42 @@ $(function () {
       return;
     }
 
-    // Calculate the sale price if the product is ONSALE
+    // Check if sale percentage is 0 or empty (remove sale)
+    if (!productSale || isNaN(productSale) || Number(productSale) <= 0) {
+      const confirmRemove = confirm(
+        "Are you sure you want to remove the sale percentage and revert to the original price?"
+      );
+      if (confirmRemove) {
+        try {
+          // Send a request to remove the sale percentage and revert the price to the original
+          const response = await axios.post(`/admin/product/${id}`, {
+            productSale: 0,
+            productSalePrice: null, // Remove the sale price
+          });
+
+          const result = response.data;
+          if (result.data) {
+            alert("Sale percentage removed successfully!");
+            $(`#sale-price-${id}`); // Revert to original price
+            $(`#sale-${id}`).val(""); // Clear the sale input field
+          } else {
+            alert("Failed to remove sale percentage!");
+          }
+        } catch (err) {
+          console.log("Error:", err);
+          alert("Failed to remove sale percentage!");
+        }
+      }
+      return;
+    }
+
+    // Validate if sale percentage is more than 100
+    if (Number(productSale) > 100) {
+      alert("Sale percentage cannot exceed 100%!");
+      return;
+    }
+
+    // Calculate the sale price
     const numericProductPrice = parseFloat(productPrice);
     const numericProductSale = parseFloat(productSale);
     const productSalePrice =
@@ -71,7 +103,7 @@ $(function () {
       const result = response.data;
       if (result.data) {
         alert("Product sale percentage and price updated successfully!");
-        $(`#sale-price-${id}`).text(Math.floor(productSalePrice)); // Display the sale price as an integer
+        $(`#sale-price-${id}`).text(Math.floor(productSalePrice)); // Update sale price display
       } else {
         alert("Product update failed!");
       }
@@ -81,3 +113,42 @@ $(function () {
     }
   });
 });
+
+function validateForm() {
+  const productName = $(".product-name").val();
+  const productPrice = $(".product-price").val();
+  const productLeftCount = $(".product-left-count").val();
+  const productCollection = $(".product-desc").val();
+  const productDesc = $(".product-name").val();
+  const productStatus = $(".product-status").val();
+
+  if (
+    productName === "" ||
+    productPrice === "" ||
+    productLeftCount === "" ||
+    productCollection === "" ||
+    productDesc === "" ||
+    productStatus === ""
+  ) {
+    alert("Please insert all required inputs");
+    return false;
+  } else return true;
+}
+
+function previewFileHandler(input, order) {
+  const imgClassName = input.className;
+  const file = $(`.${imgClassName}`).get(0).files[0],
+    fileType = file["type"],
+    validImageType = ["image/jpg", "image/jpeg", "image/png"];
+  if (!validImageType.includes(fileType)) {
+    alert("Please, insert only jpeg, jpg and png!");
+  } else {
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function () {
+        $(`#image-section-${order}`).attr("src", reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+}
