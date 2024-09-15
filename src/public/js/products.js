@@ -38,6 +38,17 @@ $(function () {
   });
 
   // Handle sale percentage update
+  $(".product-sale-input").on("input", function () {
+    const val = $(this).val();
+
+    if (val.includes(".")) {
+      const correctedVal = Math.floor(parseFloat(val)); // Remove decimal portion
+      $(this).val(correctedVal); // Set the corrected value
+      alert(
+        "Sale percentage must be a whole number. Decimal values are not allowed."
+      );
+    }
+  });
   $(".update-sale-btn").on("click", async function (e) {
     const id = $(this).data("id");
     const productSale = $(`#sale-${id}`).val();
