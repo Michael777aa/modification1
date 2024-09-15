@@ -10,6 +10,13 @@ $(function () {
     $("#cancel-btn").css("display", "flex");
   });
 
+  // Cancel button logic to just hide form and keep the state
+  $("#cancel-btn").on("click", function () {
+    // Hide the form and show the "New Product" button
+
+    $("#process-btn").css("display", "flex");
+  });
+
   $(".new-product-status").on("change", async function (e) {
     const id = e.target.id;
     const productStatus = $(`#${id}.new-product-status`).val();
@@ -49,6 +56,7 @@ $(function () {
       );
     }
   });
+
   $(".update-sale-btn").on("click", async function (e) {
     const id = $(this).data("id");
     const productSale = $(`#sale-${id}`).val();
@@ -109,7 +117,7 @@ $(function () {
       // Send a POST request to update the sale percentage and sale price
       const response = await axios.post(`/admin/product/${id}`, {
         productSale: numericProductSale,
-        productSalePrice: Math.floor(productSalePrice), // Round down to nearest integer
+        productSalePrice: Math.floor(productSalePrice),
       });
 
       const result = response.data;

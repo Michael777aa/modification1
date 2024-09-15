@@ -34,11 +34,11 @@
           <table class="table table-bordered table-hover">
             <thead class="thead-light">
               <tr class="thead-light">
-                <th scope="col">T/r</th>
+                <th scope="col">№</th>
                 <th scope="col"> Name</th>
-                <th scope="col"> Type</th>
-                <th scope="col">Size</th>
-                <th scope="col"> Lefts </th>
+                <th scope="col"> Category</th>
+                <th scope="col">Feature</th>
+                <th scope="col"> Left </th>
                 <th scope="col"> Sold </th>
                 <th scope="col">Price</th>
                 <th scope="col">SalePrice</th>
@@ -144,22 +144,22 @@
           </div>
           <div class="half-input-frame">
             <div class="half-input">
-              <label>Product Type</label>
+              <label>Product Category</label>
               <select class="product-collection" name="productCollection">
-                <option value="DISH" selected>All products</option>
+                <option value="DISH" selected>Fruits</option>
                 <option value="SALAD">Vegetables</option>
-                <option value="DESSERT">Fruits</option>
+                <option value="DESSERT">Sweets</option>
                 <option value="DRINK">Meat</option>
                 <option value="OTHER">Other</option>
               </select>
             </div>
 
             <div class="half-input" id="product-collection">
-              <label>Dish Volume</label>
+              <label>Product Feature</label>
               <select class="product-size" name="productSize">
-                <option value="SMALL">Small</option>
-                <option value="NORMAL" selected>Normal</option>
-                <option value="LARGE">Large</option>
+                <option value="SMALL">First-class</option>
+                <option value="NORMAL" selected>Second-class</option>
+                <option value="LARGE">Third-class</option>
                
               </select>
             </div>
