@@ -25,7 +25,7 @@ $(function () {
       ) {
         $(`#sale-${id}`).prop("disabled", true); // Disable sale input
         // Set sale price to N/A or remove it
-        $(`#sale-price-${id}`).text("");
+        $(`#sale-price-${id}`).val();
       } else if (productStatus === "ONSALE") {
         $(`#sale-${id}`).prop("disabled", false); // Enable sale input
       }
