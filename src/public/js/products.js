@@ -68,7 +68,8 @@ $(function () {
           const result = response.data;
           if (result.data) {
             alert("Sale percentage removed successfully!");
-            $(`#sale-price-${id}`); // Revert to original price
+            $(`#sale-price-${id}`).text(null); // Revert to original price
+
             $(`#sale-${id}`).val(""); // Clear the sale input field
           } else {
             alert("Failed to remove sale percentage!");
