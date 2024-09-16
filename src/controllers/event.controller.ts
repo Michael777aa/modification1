@@ -15,8 +15,8 @@ eventController.getAllEvents = async (req: Request, res: Response) => {
   try {
     console.log("getAllEvents");
     const data = await eventService.getAllEvents();
-    res.send(data);
-    // res.render("event", { events: data });
+
+    res.render("event", { events: data });
   } catch (err) {
     console.log("Error, getAllEvents", err);
     if (err instanceof Errors) res.status(err.code).json(err);
@@ -37,7 +37,9 @@ eventController.createNewEvent = async (req: AdminRequest, res: Response) => {
 
     await eventService.createNewEvent(data);
 
-    res.send(data);
+    res.send(
+      `<script> alert("Sucessfully creation!"); window.location.replace('/admin/event/all');</script>`
+    );
   } catch (err) {
     const message =
       err instanceof Errors ? err.message : Message.SOMETHING_WENT_WRONG;
