@@ -2,7 +2,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(-45deg, #2b00ffba, #ff0000bf);
+  background: linear-gradient(135deg, #2b00ff, #ff0000);
   color: #c4c3ca;
   font-family: "Muli", sans-serif;
   margin: 0;

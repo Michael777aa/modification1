@@ -3,31 +3,37 @@
 <link rel="stylesheet" type="text/css" href="/css/products.css" />
 
 <body>
-  <div class="products-container">
-    <div class="navigation-menu">
-      <ul class="nav justify-content-center">
-        <li class="nav-item" style="cursor: pointer">
-          <a class="nav-link active" href="/admin/">Home</a>
-        </li>
-        <li class="nav-item" style="cursor: pointer">
-          <a class="nav-link" href="/admin/product/all">Menu</a>
-        </li>
-        <li class="nav-item" style="cursor: pointer">
-          <a class="nav-link" href="/admin/user/all">Users</a>
-        </li>
-        <li
-          class="nav-item"
-          style="cursor: pointer"
+  <nav class="navigation-menu">
+    <ul class="nav justify-content-center">
+      <li class="nav-item">
+        <a class="nav-link " href="/admin">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="/admin/product/all">Menu</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/admin/event/all">Events</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/admin/user/all">Users</a>
+      </li>
+     
+      <li class="nav-item">
+        <a
+          class="nav-link logout"
+          href="/admin/logout"
           onclick="return confirm('Do you want to logout?')"
-        >
-          <a class="nav-link" href="/admin/logout">Logout</a>
-        </li>
-      </ul>
-    </div>
-
-    <div class="restaurant-menu-frame">
+          >Logout</a>
+      </li>
+    </ul>
+  </nav>
+  <div class="products-container">
+    <div class="restaurant-menu-frame"> 
       <div class="board">
         <div class="dishes-table">
+          <div>
+            
+          </div>
           <span class="new-dish-txt" style="margin-bottom: 30px">
              MENU
           </span>

@@ -1,3 +1,69 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #2b00ff, #ff0000);
+  color: #c4c3ca;
+  font-family: "Muli", sans-serif;
+  margin: 0;
+}
+html {
+  scroll-behavior: smooth;
+}
+.container {
+  position: relative;
+  left: 9%;
+}
+
+.signup-frame {
+  width: 100%; /* Ensures container takes full width */
+  max-width: 700px; /* Limits max width */
+  padding-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.sign-input-frame {
+  width: 100%;
+  padding: 0 3%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.sign-up-frame {
+  width: 49%;
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sign-up-frame input {
+  padding-left: 20px;
+  width: 100%;
+  height: 55px;
+  background: #f6f5f5;
+  border: 1px solid #dddddd;
+  border-radius: 8px;
+}
+.upload-img-frame {
+  width: 100%;
+  height: 280px; /* Fix height to prevent layout changes */
+  display: flex;
+  justify-content: center; /* Center the image horizontally */
+  align-items: center; /* Center the image vertically */
+  border-radius: 15px;
+  overflow: hidden; /* Ensures image doesn't overflow the container */
+}
+
+.upload-img-frame img {
+  max-width: 100%; /* Ensure image doesn't exceed container width */
+  max-height: 100%; /* Ensure image doesn't exceed container height */
+  object-fit: cover; /* Cover the container while maintaining aspect ratio */
+}
+
 .upper-signup {
   padding: 10px 3%;
   display: flex;
@@ -67,60 +133,6 @@
   color: #fff;
 }
 
-.signup-frame .sign-input-frame {
-  position: relative;
-  width: 100%;
-  padding: 0 3%;
-  height: auto;
-  display: flex;
-  flex-direction: row;
-}
-
-.sign-input-frame .sign-up-frame {
-  position: relative;
-  margin-top: 15px;
-  width: 49%;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-}
-.sign-up-frame .images-warnings {
-  display: block;
-  text-align: start;
-  font-size: 22px;
-  line-height: 2.01;
-  color: #212121;
-}
-
-.sign-up-frame label {
-  margin-bottom: 0px;
-  font-family: "Poppins";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 18px;
-  color: #212121;
-}
-
-.sign-up-frame input {
-  position: relative;
-  margin-top: 10px;
-  padding-left: 20px;
-  width: 100%;
-  height: 55px;
-  background: #f6f5f5;
-  border: 1px solid #dddddd;
-  border-radius: 8px;
-}
-
-.upload-img-frame {
-  width: 100%;
-
-  height: 298px;
-  display: flex;
-  border-radius: 15px;
-}
-
 .media-text {
   color: #212121;
   font-family: sans-serif;
@@ -135,7 +147,9 @@
 
   font-size: 16px;
 }
-
+.file-box .upload-name {
+  border-radius: 8px 0 0 8px;
+}
 .file-box input[type="file"] {
   position: absolute;
   width: 1px;
@@ -167,48 +181,9 @@
 .image-inserting label {
   margin-top: 10px;
 }
-.file-box .upload-name {
+.file-input-label {
   position: relative;
-  padding: 20px;
-  width: 85%;
-  height: 55px;
-  display: flex;
-  background: #ffffff;
-  border: 1px solid #dddddd;
-  border-radius: 8px 0px 0px 8px;
-}
-.right-preview-image {
-  position: relative;
-  top: 23px;
-}
-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: linear-gradient(-45deg, #ff0000bf, #2b00ffba);
-  color: #c4c3ca;
-  font-family: "Muli", sans-serif;
-  margin: 0;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-}
-
-.signup-frame {
-  width: 100%; /* Make sure the width is consistent */
-  max-width: 700px; /* Optional: limit the max width to prevent it from growing too much */
-  padding-bottom: 20px;
-  display: flex;
-  flex-direction: column;
-  border-radius: 10px;
-  background: #ffffff;
+  top: -10px;
 }
 
 .signup-btn {
@@ -220,70 +195,4 @@ html {
   padding: 15px;
   margin-top: 15px;
   cursor: pointer;
-}
-
-.signup-btn:hover,
-.signup-btn:active,
-.signup-btn:focus {
-  outline: none; /* Remove any outline */
-  background-color: #0099cc; /* Change color on hover/focus */
-}
-
-.sign-input-frame {
-  width: 100%; /* Make sure width is consistent */
-  padding: 0 3%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
-.sign-up-frame {
-  width: 49%;
-  margin-top: 15px;
-  display: flex;
-  flex-direction: column;
-}
-
-.sign-up-frame input {
-  padding-left: 20px;
-  width: 100%;
-  height: 55px;
-  background: #f6f5f5;
-  border: 1px solid #dddddd;
-  border-radius: 8px;
-  box-sizing: border-box; /* Ensures padding doesn't affect width */
-}
-
-.right-preview-image {
-  width: 100%;
-  text-align: center;
-}
-
-.file-box .upload-name {
-  padding: 20px;
-  width: calc(100% - 138px); /* Subtract the width of the upload button */
-  height: 55px;
-  background: #ffffff;
-  border: 1px solid #dddddd;
-  border-radius: 8px 0 0 8px;
-}
-
-.file-box label {
-  width: 138px;
-  height: 55px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #6a7a99;
-  border-radius: 0 8px 8px 0;
-  font-size: 15px;
-  color: #ffffff;
-  cursor: pointer;
-}
-
-.upload-img-frame {
-  width: 100%;
-  height: 280px;
-  display: flex;
-  border-radius: 15px;
 }
