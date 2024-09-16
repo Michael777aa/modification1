@@ -10,6 +10,12 @@ class EventService {
     this.eventModel = EventModel;
   }
 
+  public async getAllEvents(): Promise<Event[]> {
+    const result = await this.eventModel.find().exec();
+    if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+    return result;
+  }
+
   public async createNewEvent(input: EventInput): Promise<Event> {
     try {
       return await this.eventModel.create(input);

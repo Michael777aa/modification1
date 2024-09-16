@@ -11,6 +11,19 @@ const eventService = new EventService();
 
 const eventController: T = {};
 
+eventController.getAllEvents = async (req: Request, res: Response) => {
+  try {
+    console.log("getAllEvents");
+    const data = await eventService.getAllEvents();
+    res.send(data);
+    // res.render("event", { events: data });
+  } catch (err) {
+    console.log("Error, getAllEvents", err);
+    if (err instanceof Errors) res.status(err.code).json(err);
+    else res.status(Errors.standard.code).json(Errors.standard);
+  }
+};
+
 eventController.createNewEvent = async (req: AdminRequest, res: Response) => {
   try {
     if (!req.files?.length) {

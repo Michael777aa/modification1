@@ -45,6 +45,12 @@ routerAdmin.post(
 );
 
 /** EVENT */
+routerAdmin.get(
+  "/event/all",
+  restaurantController.verifyRestaurant,
+  eventController.getAllEvents
+);
+
 routerAdmin.post(
   "/event/create",
   restaurantController.verifyRestaurant,
