@@ -11,6 +11,32 @@ const eventService = new EventService();
 
 const eventController: T = {};
 
+/**********************   
+          SPA
+**********************/
+eventController.getEvents = async (req: Request, res: Response) => {
+  try {
+    console.log("getEvents");
+    const data = await eventService.getEvents();
+
+    res.status(HttpCode.OK).json(data);
+  } catch (err) {
+    console.log("Error, getEvents", err);
+    // Return errors in JSON format as well
+    if (err instanceof Errors) {
+      res.status(err.code).json({ message: err.message });
+    } else {
+      res.status(Errors.standard.code).json({
+        message: Errors.standard.message,
+      });
+    }
+  }
+};
+
+/**********************   
+          BSSR
+**********************/
+
 eventController.getAllEvents = async (req: Request, res: Response) => {
   try {
     console.log("getAllEvents");

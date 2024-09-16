@@ -9,6 +9,18 @@ class EventService {
   constructor() {
     this.eventModel = EventModel;
   }
+  /**********************   
+          SPA
+  **********************/
+  public async getEvents(): Promise<Event[]> {
+    const result = await this.eventModel.find().exec();
+    if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+    return result;
+  }
+
+  /**********************   
+          BSSR
+  **********************/
 
   public async getAllEvents(): Promise<Event[]> {
     const result = await this.eventModel.find().exec();

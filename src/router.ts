@@ -4,6 +4,7 @@ import memberController from "./controllers/member.controller";
 import uploader from "./libs/utils/uploader";
 import productController from "./controllers/product.controller";
 import orderController from "./controllers/order.controller";
+import eventController from "./controllers/event.controller";
 /** Member **/
 router.get("/member/restaurant", memberController.getRestaurant);
 router.post("/member/signup", memberController.signup);
@@ -30,6 +31,7 @@ router.post(
 /** Product **/
 router.get("/member/top-users", memberController.getTopUsers);
 router.get("/product/all", productController.getProducts);
+router.get("/event/all", eventController.getEvents);
 router.get(
   "/product/:id",
   memberController.retrieveAuth,
