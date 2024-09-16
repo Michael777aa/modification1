@@ -33,5 +33,20 @@ eventController.createNewEvent = async (req: AdminRequest, res: Response) => {
     );
   }
 };
+eventController.updateChosenEvent = async (req: Request, res: Response) => {
+  try {
+    console.log("updateChosenEvent");
+
+    const id = req.params.id;
+
+    const result = await eventService.updateChosenEvent(id, req.body);
+
+    res.status(HttpCode.OK).json({ data: result });
+  } catch (err) {
+    console.log("Error, updateChosenEvent", err);
+    if (err instanceof Errors) res.status(err.code).json(err);
+    else res.status(Errors.standard.code).json(Errors.standard);
+  }
+};
 
 export default eventController;

@@ -51,6 +51,12 @@ routerAdmin.post(
   makeUploader("events").array("eventImages", 5),
   eventController.createNewEvent
 );
+
+routerAdmin.post(
+  "/event/:id",
+  restaurantController.verifyRestaurant,
+  eventController.updateChosenEvent
+);
 /** USER */
 
 routerAdmin.get(

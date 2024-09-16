@@ -1,5 +1,6 @@
+import { shapeIntoMongooseObjectId } from "../libs/config";
 import Errors, { HttpCode, Message } from "../libs/Error";
-import { EventInput } from "../libs/types/event";
+import { EventInput, EventUpdateInput } from "../libs/types/event";
 import EventModel from "../schema/Event.model";
 
 class EventService {
@@ -17,6 +18,17 @@ class EventService {
 
       throw new Errors(HttpCode.BAD_REQUEST, Message.CREATE_FAILED);
     }
+  }
+  public async updateChosenEvent(
+    _id: string,
+    input: EventUpdateInput
+  ): Promise<Event> {
+    _id = shapeIntoMongooseObjectId(_id);
+    const result = await this.eventModel
+      .findOneAndUpdate({ _id: _id }, input, { new: true })
+      .exec();
+    if (!result) throw new Errors(HttpCode.NOT_MODIFIED, Message.UPDATE_FAILED);
+    return result;
   }
 }
 
