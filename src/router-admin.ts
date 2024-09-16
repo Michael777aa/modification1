@@ -2,6 +2,7 @@ import express from "express";
 import restaurantController from "./controllers/restaurant.controller";
 import productController from "./controllers/product.controller";
 import makeUploader from "./libs/utils/uploader";
+import eventController from "./controllers/event.controller";
 /** RESTAURANT SECTION */
 const routerAdmin = express.Router();
 
@@ -43,10 +44,24 @@ routerAdmin.post(
   productController.updateChosenProduct
 );
 
+/** EVENT */
+routerAdmin.post(
+  "/event/create",
+  restaurantController.verifyRestaurant,
+  makeUploader("events").array("eventImages", 5),
+  eventController.createNewEvent
+);
 /** USER */
 
-routerAdmin.get("/user/all", restaurantController.verifyRestaurant, restaurantController.getUsers);
-routerAdmin.post("/user/edit", restaurantController.verifyRestaurant, restaurantController.updateChosenUser);
-
+routerAdmin.get(
+  "/user/all",
+  restaurantController.verifyRestaurant,
+  restaurantController.getUsers
+);
+routerAdmin.post(
+  "/user/edit",
+  restaurantController.verifyRestaurant,
+  restaurantController.updateChosenUser
+);
 
 export default routerAdmin;

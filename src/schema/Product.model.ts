@@ -59,7 +59,6 @@ const productSchema = new Schema(
     productVolume: {
       type: String,
       enum: ProductVolume,
-      default: ProductVolume.ONE,
     },
 
     productDesc: {
@@ -71,11 +70,6 @@ const productSchema = new Schema(
       type: [String],
       required: true,
       default: [],
-    },
-
-    productViews: {
-      type: Number,
-      default: 0,
     },
   },
   { timestamps: true } // createdAt, updateAt
