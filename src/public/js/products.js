@@ -7,13 +7,6 @@ $(function () {
 
   $("#cancel-btn").on("click", () => {
     $(".dish-container").slideToggle(100);
-    $("#cancel-btn").css("display", "flex");
-  });
-
-  // Cancel button logic to just hide form and keep the state
-  $("#cancel-btn").on("click", function () {
-    // Hide the form and show the "New Product" button
-
     $("#process-btn").css("display", "flex");
   });
 
@@ -25,18 +18,16 @@ $(function () {
       const response = await axios.post(`/admin/product/${id}`, {
         productStatus: productStatus,
       });
-
       // Disable sale input if product is not ONSALE or status is Process/Delete/Pause
       if (
         ["Process", "Delete", "Pause", "ONSALE"].indexOf(productStatus) === -1
       ) {
         $(`#sale-${id}`).prop("disabled", true); // Disable sale input
-        // Set sale price to N/A or remove it
+        // Set sale price to remove it
         $(`#sale-price-${id}`).val();
       } else if (productStatus === "ONSALE") {
         $(`#sale-${id}`).prop("disabled", false); // Enable sale input
       }
-
       $(".new-product-status").blur();
     } catch (err) {
       console.log(err);
@@ -47,7 +38,6 @@ $(function () {
   // Handle sale percentage update
   $(".product-sale-input").on("input", function () {
     const val = $(this).val();
-
     if (val.includes(".")) {
       const correctedVal = Math.floor(parseFloat(val)); // Remove decimal portion
       $(this).val(correctedVal); // Set the corrected value

@@ -12,28 +12,31 @@ import {
 import { ObjectId } from "mongoose";
 import MemberService from "./Member.service";
 import { OrderStatus } from "../libs/enums/order.enum";
+import ProductModel from "../schema/Product.model";
 
 class OrderService {
   private readonly orderModel;
   private readonly orderItemModel;
   private readonly memberService;
+  private readonly productModel;
 
   constructor() {
     this.orderModel = OrderModel;
     this.orderItemModel = OrderItemModel;
     this.memberService = new MemberService();
+    this.productModel = ProductModel;
   }
-
   public async createOrder(
     member: Member,
     input: OrderItemInput[]
   ): Promise<Order> {
     const memberId = shapeIntoMongooseObjectId(member._id);
+
+    // Calculate total amount
     const amount = input.reduce((accumulator: number, item: OrderItemInput) => {
       return accumulator + item.itemPrice * item.itemQuantity;
     }, 0);
     const delivery = amount < 100 ? 5 : 0;
-
     try {
       const newOrder = await this.orderModel.create({
         orderTotal: amount,
@@ -42,7 +45,27 @@ class OrderService {
       });
 
       const orderId = newOrder._id;
+
       await this.recordOrderItem(orderId, input);
+      for (let item of input) {
+        const productId = shapeIntoMongooseObjectId(item.productId);
+        const product = await this.productModel.findById(productId).exec();
+        if (!product)
+          throw new Errors(HttpCode.NOT_FOUND, Message.CREATE_FAILED);
+        const leftAmount = product.productLeftCount - item.itemQuantity;
+        const soldAmount = product.productSold + item.itemQuantity;
+
+        if (leftAmount < 0)
+          throw new Errors(HttpCode.NOT_FOUND, Message.CREATE_FAILED);
+        await this.productModel
+          .findByIdAndUpdate(
+            productId,
+            { productLeftCount: leftAmount, productSold: soldAmount },
+            { new: true }
+          )
+          .lean()
+          .exec();
+      }
 
       return newOrder;
     } catch (err) {
