@@ -94,10 +94,15 @@ productController.updateChosenProduct = async (req: Request, res: Response) => {
     console.log("updateChosenProduct");
     const id = req.params.id;
     const { productSale, productStatus, productPrice } = req.body;
+    const numericProductSale = Number(productSale);
+    const numericProductPrice = Number(productPrice);
 
-    let updatePayload: any = {};
-    if (productStatus === ProductStatus.ONSALE) {
-      updatePayload.discountedPrice = productPrice * (1 - productSale / 100);
+    let updatePayload: any = { ...req.body };
+    if (productStatus === ProductStatus.ONSALE && !isNaN(numericProductSale)) {
+      updatePayload.productSalePrice = calculateDiscountedPrice(
+        numericProductPrice,
+        numericProductSale
+      );
     }
     const result = await productService.updateChosenProduct(id, updatePayload);
     res.status(HttpCode.OK).json({ data: result });
@@ -107,5 +112,12 @@ productController.updateChosenProduct = async (req: Request, res: Response) => {
     else res.status(Errors.standard.code).json(Errors.standard);
   }
 };
+function calculateDiscountedPrice(
+  originalPrice: number,
+  discountPercentage: number
+): number {
+  const discountedPrice = originalPrice * (1 - discountPercentage / 100);
+  return parseFloat(discountedPrice.toFixed(6));
+}
 
 export default productController;

@@ -119,6 +119,9 @@ class ProductService {
     _id = shapeIntoMongooseObjectId(_id);
     const product = await this.productModel.findById(_id).exec();
     if (!product) throw new Errors(HttpCode.NOT_FOUND, Message.UPDATE_FAILED);
+    if (input.productPrice !== undefined && isNaN(input.productPrice)) {
+      throw new Errors(HttpCode.BAD_REQUEST, Message.UPDATE_FAILED);
+    }
     const result = await this.productModel
       .findOneAndUpdate({ _id: _id }, input, { new: true })
       .exec();

@@ -59,9 +59,9 @@
                   <td><%= value.eventLocation %></td>
                   <td>
                     <select class="spec-select new-product-status" id="<%= value._id %>">
-                      <option value="PAUSE" <%= value.productStatus === 'PAUSE' ? 'selected' : '' %>>PAUSE</option>
-                      <option value="PROCESS"  <%= value.productStatus === 'PROCESS' ? 'selected' : '' %> >PROCESS</option>
-                      <option value="DELETE"  <%= value.productStatus === 'DELETE' ? 'selected' : '' %> >DELETE</option>
+                      <option value="PAUSE" <%= value.eventStatus === 'PAUSE' ? 'selected' : '' %>>PAUSE</option>
+                      <option value="PROCESS"  <%= value.eventStatus === 'PROCESS' ? 'selected' : '' %> >PROCESS</option>
+                      <option value="DELETE"  <%= value.eventStatus === 'DELETE' ? 'selected' : '' %> >DELETE</option>
                     
                     </select>
                   </td>
