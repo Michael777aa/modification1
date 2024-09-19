@@ -3,11 +3,13 @@ import productController from "./controllers/product.controller";
 import makeUploader from "./libs/utils/uploader";
 import eventController from "./controllers/event.controller";
 import shopController from "./controllers/shop.controller";
+import couponController from "./controllers/coupon.Controller";
 /** RESTAURANT SECTION */
 const routerAdmin = express.Router();
 
 routerAdmin.get("/", shopController.goHome);
 
+routerAdmin.get("/coupanCreate", couponController.goHome);
 routerAdmin.get("/check-me", shopController.checkAuthSession);
 
 routerAdmin
@@ -74,6 +76,19 @@ routerAdmin.post(
   "/user/edit",
   shopController.verifyRestaurant,
   shopController.updateChosenUser
+);
+routerAdmin.get(
+  "/coupanCreate",
+  shopController.verifyRestaurant,
+  (req, res) => {
+    res.render("/coupanCreate", { result: null }); // Initialize result as null for GET requests
+  }
+);
+
+routerAdmin.post(
+  "/",
+  shopController.verifyRestaurant,
+  couponController.createCoupon
 );
 
 export default routerAdmin;
