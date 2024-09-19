@@ -78,15 +78,20 @@ routerAdmin.post(
 );
 
 // COUPON
-routerAdmin.get(
-  "/coupanCreate",
-  shopController.verifyRestaurant,
-  couponController.getCoupon
-);
+// routerAdmin.get(
+//   "/coupanCreate",
+//   shopController.verifyRestaurant,
+//   couponController.getCoupon
+// );
 routerAdmin.post(
   "/coupanCreate",
   shopController.verifyRestaurant,
   couponController.createCoupon
 );
 
+routerAdmin.get(
+  "/coupanCreate",
+  shopController.verifyRestaurant,
+  couponController.getAllCoupons
+);
 export default routerAdmin;
