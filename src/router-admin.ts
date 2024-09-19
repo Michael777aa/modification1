@@ -9,7 +9,6 @@ const routerAdmin = express.Router();
 
 routerAdmin.get("/", shopController.goHome);
 
-routerAdmin.get("/coupanCreate", couponController.goHome);
 routerAdmin.get("/check-me", shopController.checkAuthSession);
 
 routerAdmin
@@ -77,16 +76,15 @@ routerAdmin.post(
   shopController.verifyRestaurant,
   shopController.updateChosenUser
 );
+
+// COUPON
 routerAdmin.get(
   "/coupanCreate",
   shopController.verifyRestaurant,
-  (req, res) => {
-    res.render("/coupanCreate", { result: null }); // Initialize result as null for GET requests
-  }
+  couponController.getCoupon
 );
-
 routerAdmin.post(
-  "/",
+  "/coupanCreate",
   shopController.verifyRestaurant,
   couponController.createCoupon
 );

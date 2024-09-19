@@ -8,20 +8,22 @@ const couponService = new CouponService();
 
 const couponController: T = {};
 
+couponController.getCoupon = (req: Request, res: Response) => {
+  try {
+    console.log("getCoupon");
+    res.render("Coupon");
+  } catch (err) {
+    console.log("Error, getCoupon:", err);
+  }
+};
+
 couponController.createCoupon = async (req: ExtendedRequest, res: Response) => {
   try {
     const newCoupon = await couponService.createCoupon(req.body);
-    res.render("Coupon", { result: newCoupon });
+    res.render("Coupon", { result: newCoupon || null });
   } catch (err) {
     console.log(err, "error");
   }
 };
-couponController.goHome = (req: Request, res: Response) => {
-  try {
-    console.log("goHome");
-    res.render("Coupon");
-  } catch (err) {
-    console.log("Error, goHome:", err);
-  }
-};
+
 export default couponController;
