@@ -21,7 +21,7 @@ class MemberService {
 
   public async getRestaurant(): Promise<Member> {
     const result = await this.memberModel
-      .findOne({ memberType: MemberType.RESTAURANT })
+      .findOne({ memberType: MemberType.OWNER })
       .lean()
       .exec();
     if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);

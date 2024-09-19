@@ -3,7 +3,6 @@ import {
   ProductCollection,
   ProductSize,
   ProductStatus,
-  ProductVolume,
 } from "../libs/enums/product.enum";
 
 // Schema first & Code
@@ -42,7 +41,7 @@ const productSchema = new Schema(
     productSize: {
       type: String,
       enum: ProductSize,
-      default: ProductSize.NORMAL,
+      default: ProductSize.FirstClass,
     },
     productSold: {
       type: Number,
@@ -54,11 +53,6 @@ const productSchema = new Schema(
       min: 0,
       max: 100,
       default: 0,
-    },
-
-    productVolume: {
-      type: String,
-      enum: ProductVolume,
     },
 
     productDesc: {
@@ -75,9 +69,6 @@ const productSchema = new Schema(
   { timestamps: true } // createdAt, updateAt
 );
 
-productSchema.index(
-  { productName: 1, productSize: 1, productVolume: 1 },
-  { unique: true }
-);
+productSchema.index({ productName: 1, productSize: 1 }, { unique: true });
 
 export default mongoose.model("product", productSchema);
