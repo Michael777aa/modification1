@@ -2,11 +2,36 @@ import { Request, Response } from "express";
 import CouponService from "../models/Coupon.service";
 import { T } from "../libs/types/common";
 import { AdminRequest } from "../libs/types/member";
-import Errors, { Message } from "../libs/Error";
+import Errors, { HttpCode, Message } from "../libs/Error";
 
 const couponService = new CouponService();
 const couponController: T = {};
 
+/**********************   
+          SPA
+**********************/
+couponController.getCoupons = async (req: Request, res: Response) => {
+  try {
+    console.log("getCoupons");
+    // Call the service method instead of itself
+    const data = await couponService.getCoupons();
+
+    res.status(HttpCode.OK).json(data);
+  } catch (err) {
+    console.log("Error in getCoupons", err);
+    if (err instanceof Errors) {
+      res.status(err.code).json({ message: err.message });
+    } else {
+      res.status(Errors.standard.code).json({
+        message: Errors.standard.message,
+      });
+    }
+  }
+};
+
+/**********************   
+          BSSR
+**********************/
 couponController.getAllCoupons = async (req: Request, res: Response) => {
   try {
     console.log("getAllCoupons");

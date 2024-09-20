@@ -6,6 +6,8 @@ import { HttpCode } from "../libs/Error";
 import { Message } from "../libs/Error";
 import cron from "node-cron";
 import * as bcrypt from "bcryptjs";
+import { v4 as uuidv4 } from "uuid";
+
 class CouponService {
   private readonly couponModel;
 
@@ -14,16 +16,18 @@ class CouponService {
     this.scheduleCouponCleanup();
   }
 
+  /**********************   
+          SPA
+  **********************/
+  public async getCoupons(): Promise<Coupan[]> {
+    const result = await this.couponModel.find().exec();
+    if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+    return result;
+  }
+
   public async createCoupon(input: CoupanInput) {
     try {
-      const words = ["Fresh", "Savory", "Delicious", "Tasty", "Sweet"];
-      let randomWords = [];
-      for (let i = 0; i < 6; i++) {
-        randomWords.push(words[Math.floor(Math.random() * words.length)]);
-      }
-      input.name = `Coupon-${randomWords.join("-")}`;
-      const salt = await bcrypt.genSalt();
-      input.name = await bcrypt.hash(input.name, salt);
+      input.name = `Coupon-${uuidv4()}`; // Generate unique coupon name
 
       if (Number(input.discount) > 100) {
         throw new Error("Discount cannot exceed 100%");

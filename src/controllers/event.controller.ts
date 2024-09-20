@@ -1,9 +1,7 @@
 import { Request, Response } from "express";
 import Errors, { HttpCode, Message } from "../libs/Error";
 import { T } from "../libs/types/common";
-import { AdminRequest, ExtendedRequest } from "../libs/types/member";
-import { ProductInput, ProductInquiry } from "../libs/types/product";
-import { ProductCollection, ProductStatus } from "../libs/enums/product.enum";
+import { AdminRequest } from "../libs/types/member";
 import { EventInput } from "../libs/types/event";
 import EventService from "../models/Event.service";
 
