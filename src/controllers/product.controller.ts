@@ -4,15 +4,19 @@ import { T } from "../libs/types/common";
 import ProductService from "../models/Product.service";
 import { AdminRequest, ExtendedRequest } from "../libs/types/member";
 import { ProductInput, ProductInquiry } from "../libs/types/product";
-import { ProductCollection } from "../libs/enums/product.enum";
+import { ProductCollection, ProductStatus } from "../libs/enums/product.enum";
 
 const productService = new ProductService();
 
 const productController: T = {};
-/** SPA */
+
+/*****************
+        SPA
+ ****************/
 productController.getProducts = async (req: Request, res: Response) => {
   try {
     console.log("getProducts");
+
     const { page, limit, order, productCollection, search } = req.query;
     const inquiry: ProductInquiry = {
       order: String(order),
@@ -35,11 +39,11 @@ productController.getProducts = async (req: Request, res: Response) => {
 
 productController.getProduct = async (req: ExtendedRequest, res: Response) => {
   try {
-    console.log("getProduct TEST");
+    console.log("getProduct");
+
     const { id } = req.params;
     const memberId = req.member?._id ?? null,
       result = await productService.getProduct(memberId, id);
-    console.log("Pased here");
 
     res.status(HttpCode.OK).json(result);
   } catch (err) {
@@ -48,11 +52,13 @@ productController.getProduct = async (req: ExtendedRequest, res: Response) => {
     else res.status(Errors.standard.code).json(Errors.standard);
   }
 };
-/** SSR */
-
+/*****************
+        BSSR
+ ****************/
 productController.getAllProducts = async (req: Request, res: Response) => {
   try {
     console.log("getAllProducts");
+
     const data = await productService.getAllProducts();
     res.render("products", { products: data });
   } catch (err) {
@@ -68,6 +74,7 @@ productController.createNewProduct = async (
 ) => {
   try {
     console.log("createNewProduct");
+
     if (!req.files?.length)
       throw new Errors(HttpCode.INTERNAL_SERVER_ERROR, Message.CREATE_FAILED);
 
@@ -89,15 +96,23 @@ productController.createNewProduct = async (
     );
   }
 };
-
 productController.updateChosenProduct = async (req: Request, res: Response) => {
   try {
     console.log("updateChosenProduct");
 
     const id = req.params.id;
+    const { productSale, productStatus, productPrice } = req.body;
+    const numericProductSale = Number(productSale);
+    const numericProductPrice = Number(productPrice);
 
-    const result = await productService.updateChosenProduct(id, req.body);
-
+    let updatePayload: any = { ...req.body };
+    if (productStatus === ProductStatus.ONSALE && !isNaN(numericProductSale)) {
+      updatePayload.productSalePrice = calculateDiscountedPrice(
+        numericProductPrice,
+        numericProductSale
+      );
+    }
+    const result = await productService.updateChosenProduct(id, updatePayload);
     res.status(HttpCode.OK).json({ data: result });
   } catch (err) {
     console.log("Error, updateChosenProduct", err);
@@ -105,5 +120,12 @@ productController.updateChosenProduct = async (req: Request, res: Response) => {
     else res.status(Errors.standard.code).json(Errors.standard);
   }
 };
+function calculateDiscountedPrice(
+  originalPrice: number,
+  discountPercentage: number
+): number {
+  const discountedPrice = originalPrice * (1 - discountPercentage / 100);
+  return parseFloat(discountedPrice.toFixed(6));
+}
 
 export default productController;

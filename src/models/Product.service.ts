@@ -22,9 +22,10 @@ class ProductService {
     this.viewService = new ViewService();
   }
 
-  /** SPA */
+  /*****************
+          SPA
+  *****************/
   public async getProducts(inquiry: ProductInquiry): Promise<Product[]> {
-    console.log("inquiry:", inquiry);
     const match: T = { productStatus: ProductStatus.PROCESS };
     if (inquiry.productCollection)
       match.productCollection = inquiry.productCollection;
@@ -54,19 +55,19 @@ class ProductService {
     id: string
   ): Promise<Product> {
     const productId = shapeIntoMongooseObjectId(id);
-    console.log("passed here 1");
+
     let result = await this.productModel
       .findOne({
         _id: productId,
         productStatus: ProductStatus.PROCESS,
       })
       .exec();
-    console.log("passed here 2");
 
     if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
 
+    //if Member exist =>
+
     if (memberId) {
-      //Check Existance
       const input: ViewInput = {
         memberId: memberId,
         viewRefId: productId,
@@ -75,11 +76,8 @@ class ProductService {
       const existView = await this.viewService.checkViewExistance(input);
 
       if (!existView) {
-        //Insert New View Log
-
         await this.viewService.insertMemberView(input);
       }
-      //Increase Counts
 
       result = await this.productModel
         .findByIdAndUpdate(
@@ -95,7 +93,10 @@ class ProductService {
     return result;
   }
 
-  /** SSR */
+  /*****************
+        BSSR
+  *****************/
+
   public async getAllProducts(): Promise<Product[]> {
     const result = await this.productModel.find().exec();
     if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
@@ -113,12 +114,18 @@ class ProductService {
   }
 
   public async updateChosenProduct(
-    id: string,
+    _id: string,
     input: ProductUpdateInput
   ): Promise<Product> {
-    id = shapeIntoMongooseObjectId(id);
+    _id = shapeIntoMongooseObjectId(_id);
+    const product = await this.productModel.findById(_id).exec();
+    if (!product) throw new Errors(HttpCode.NOT_FOUND, Message.UPDATE_FAILED);
+
+    if (input.productPrice !== undefined && isNaN(input.productPrice)) {
+      throw new Errors(HttpCode.BAD_REQUEST, Message.UPDATE_FAILED);
+    }
     const result = await this.productModel
-      .findOneAndUpdate({ _id: id }, input, { new: true })
+      .findOneAndUpdate({ _id: _id }, input, { new: true })
       .exec();
     if (!result) throw new Errors(HttpCode.NOT_MODIFIED, Message.UPDATE_FAILED);
     return result;

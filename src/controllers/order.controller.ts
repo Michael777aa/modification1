@@ -7,7 +7,6 @@ import { OrderInquiry, OrderUpdateInput } from "../libs/types/order";
 import { OrderStatus } from "../libs/enums/order.enum";
 
 const orderService = new OrderService();
-
 const orderController: T = {};
 
 orderController.createOrder = async (req: ExtendedRequest, res: Response) => {
@@ -15,9 +14,7 @@ orderController.createOrder = async (req: ExtendedRequest, res: Response) => {
     console.log("createOrder");
 
     const orderItems = req.body;
-
     const result = await orderService.createOrder(req.member, orderItems);
-    console.log("req.member>>", req.member);
 
     res.status(HttpCode.CREATED).json(result);
   } catch (err) {
@@ -33,6 +30,7 @@ orderController.createOrder = async (req: ExtendedRequest, res: Response) => {
 orderController.getMyOrders = async (req: ExtendedRequest, res: Response) => {
   try {
     console.log("getMyOrders");
+
     const { page, limit, orderStatus } = req.query;
     const inquiry: OrderInquiry = {
       page: Number(page),
@@ -56,6 +54,7 @@ orderController.getMyOrders = async (req: ExtendedRequest, res: Response) => {
 orderController.updateOrder = async (req: ExtendedRequest, res: Response) => {
   try {
     console.log("updateOrder");
+
     const input: OrderUpdateInput = req.body;
     const result = await orderService.updateOrder(req.member, input);
     res.status(HttpCode.OK).json(result);

@@ -1,150 +1,237 @@
-// START CLOCK SCRIPT
+var wrapper,
+  width,
+  height,
+  canvas,
+  ctx,
+  planet1,
+  planet2,
+  initialSelect = 0,
+  speedFactor,
+  speedScaling = 4,
+  orbitalScalingFactor,
+  tau = Math.PI * 2,
+  PI180 = Math.PI / 180,
+  system;
+const mcos = Math.cos,
+  msin = Math.sin;
 
-Number.prototype.pad = function (n) {
-  for (var r = this.toString(); r.length < n; r = 0 + r);
-  return r;
+var optionList = [
+    { value: "3,2,0.000002,200", text: "Earth & Venus" },
+    { value: "3,1,0.000002,200", text: "Earth & Mercury" },
+    { value: "3,4,0.0000015,250", text: "Earth & Mars" },
+    { value: "3,5,0.0000005,1000", text: "Earth & Jupiter" },
+    { value: "5,6,0.0000004,10000", text: "Jupiter & Saturn" },
+    { value: "6,7,0.00000015,80000", text: "Saturn & Uranus" },
+  ],
+  currentSelectValue = optionList[initialSelect].value.split(","),
+  planet1 = currentSelectValue[0],
+  planet2 = currentSelectValue[1],
+  orbitalScalingFactor = currentSelectValue[2],
+  speedFactor = currentSelectValue[3] * speedScaling;
+
+function createList() {
+  let myDiv = document.getElementById("selectList"),
+    selectList = document.createElement("select");
+  selectList.id = "mySelect";
+  myDiv.appendChild(selectList);
+  for (let i = 0; i < optionList.length; i++) {
+    let option = document.createElement("option");
+    option.value = optionList[i].value;
+    option.text = optionList[i].text;
+    selectList.appendChild(option);
+  }
+  selectList.addEventListener("change", handleSelect);
+}
+function handleSelect(evt) {
+  currentSelectValue = evt.target.value.split(",");
+  planet1 = currentSelectValue[0];
+  planet2 = currentSelectValue[1];
+  orbitalScalingFactor = currentSelectValue[2];
+  speedFactor = currentSelectValue[3] * speedScaling;
+  for (let loop = system.numBodies, j = 0; j < loop; j += 1) {
+    system.allBodies[j].setorbitalRadius();
+    system.allBodies[j].setSpeedFactor(speedFactor);
+  }
+  clearCanvas();
+}
+
+const PlanetarySystem = function () {
+  Object.defineProperty(this, "x", { value: 0, writable: true });
+  Object.defineProperty(this, "y", { value: 0, writable: true });
+  Object.defineProperty(this, "allBodies", { value: [], writable: true });
+  Object.defineProperty(this, "allBodiesLookup", { value: {}, writable: true });
+  Object.defineProperty(this, "numBodies", { value: 0, writable: true });
+};
+PlanetarySystem.prototype.addBody = function (vo) {
+  vo.parentSystem = this;
+  vo.parentBody =
+    vo.parentBody === null ? this : this.allBodiesLookup[vo.parentBody];
+  let body = new PlanetaryBody(vo);
+  body.update();
+  this.allBodies.push(body);
+  this.allBodiesLookup[vo.id] = body;
+  this.numBodies += 1;
+};
+PlanetarySystem.prototype.setSpeedFactor = function (value) {
+  for (let body, i = 0; i < this.numBodies; i++) {
+    body = this.allBodies[i];
+    body.setSpeedFactor(value);
+  }
+};
+PlanetarySystem.prototype.update = function () {
+  for (let body, i = 0; i < this.numBodies; i++) {
+    body = this.allBodies[i];
+    body.update();
+  }
 };
 
-function updateClock() {
-  var now = new Date();
-  var milli = now.getMilliseconds(),
-    sec = now.getSeconds(),
-    min = now.getMinutes(),
-    hou = now.getHours(),
-    mo = now.getMonth(),
-    dy = now.getDate(),
-    yr = now.getFullYear();
-  var months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-  var tags = ["mon", "d", "y", "h", "m", "s", "mi"],
-    corr = [months[mo], dy, yr, hou.pad(2), min.pad(2), sec.pad(2), milli];
-  for (var i = 0; i < tags.length; i++)
-    document.getElementById(tags[i]).firstChild.nodeValue = corr[i];
-}
-
-function initClock() {
-  updateClock();
-  window.setInterval("updateClock()", 1);
-}
-
-// END CLOCK SCRIPT
-
-/* Please ❤ this if you like it! */
-
-(function ($) {
-  "use strict";
-
-  //Parallax
-
-  function scrollBanner() {
-    $(document).on("scroll", function () {
-      var scrollPos = $(this).scrollTop();
-      $(".parallax-fade-top").css({
-        top: scrollPos / 2 + "px",
-        opacity: 1 - scrollPos / 700,
-      });
-      $(".parallax-00").css({
-        top: scrollPos / -3.5 + "px",
-      });
-      $(".parallax-01").css({
-        top: scrollPos / -2.8 + "px",
-      });
-      $(".parallax-top-shadow").css({
-        top: scrollPos / -2 + "px",
-      });
-    });
-  }
-  scrollBanner();
-
-  //Page cursors
-
-  document
-    .getElementsByTagName("body")[0]
-    .addEventListener("mousemove", function (n) {
-      (t.style.left = n.clientX + "px"),
-        (t.style.top = n.clientY + "px"),
-        (e.style.left = n.clientX + "px"),
-        (e.style.top = n.clientY + "px"),
-        (i.style.left = n.clientX + "px"),
-        (i.style.top = n.clientY + "px");
-    });
-  var t = document.getElementById("cursor"),
-    e = document.getElementById("cursor2"),
-    i = document.getElementById("cursor3");
-  function n(t) {
-    e.classList.add("hover"), i.classList.add("hover");
-  }
-  function s(t) {
-    e.classList.remove("hover"), i.classList.remove("hover");
-  }
-  s();
-  for (
-    var r = document.querySelectorAll(".hover-target"), a = r.length - 1;
-    a >= 0;
-    a--
-  ) {
-    o(r[a]);
-  }
-  function o(t) {
-    t.addEventListener("mouseover", n), t.addEventListener("mouseout", s);
-  }
-
-  //Scroll back to top
-
-  $(document).ready(function () {
-    var offset = 300;
-    var duration = 400;
-    jQuery(window).on("scroll", function () {
-      if (jQuery(this).scrollTop() > offset) {
-        jQuery(".scroll-to-top").addClass("active-arrow");
-      } else {
-        jQuery(".scroll-to-top").removeClass("active-arrow");
-      }
-    });
-    jQuery(".scroll-to-top").on("click", function (event) {
-      event.preventDefault();
-      jQuery("html, body").animate({ scrollTop: 0 }, duration);
-      return false;
-    });
-
-    /* Hero Case study images */
-
-    $(".case-study-name:nth-child(1)").on("mouseenter", function () {
-      $(".case-study-name.active").removeClass("active");
-      $(".case-study-images li.show").removeClass("show");
-      $(".case-study-images li:nth-child(1)").addClass("show");
-      $(".case-study-name:nth-child(1)").addClass("active");
-    });
-    $(".case-study-name:nth-child(2)").on("mouseenter", function () {
-      $(".case-study-name.active").removeClass("active");
-      $(".case-study-images li.show").removeClass("show");
-      $(".case-study-images li:nth-child(2)").addClass("show");
-      $(".case-study-name:nth-child(2)").addClass("active");
-    });
-    $(".case-study-name:nth-child(3)").on("mouseenter", function () {
-      $(".case-study-name.active").removeClass("active");
-      $(".case-study-images li.show").removeClass("show");
-      $(".case-study-images li:nth-child(3)").addClass("show");
-      $(".case-study-name:nth-child(3)").addClass("active");
-    });
-    $(".case-study-name:nth-child(4)").on("mouseenter", function () {
-      $(".case-study-name.active").removeClass("active");
-      $(".case-study-images li.show").removeClass("show");
-      $(".case-study-images li:nth-child(4)").addClass("show");
-      $(".case-study-name:nth-child(4)").addClass("active");
-    });
-    $(".case-study-name:nth-child(1)").trigger("mouseenter");
+const PlanetaryBody = function (vo) {
+  Object.defineProperty(this, "id", { value: vo.id, writable: true });
+  Object.defineProperty(this, "x", { value: 0, writable: true });
+  Object.defineProperty(this, "y", { value: 0, writable: true });
+  Object.defineProperty(this, "vx", { value: 0, writable: true });
+  Object.defineProperty(this, "vy", { value: 0, writable: true });
+  Object.defineProperty(this, "degrees", { value: 0, writable: true });
+  Object.defineProperty(this, "speedBase", { value: vo.speed, writable: true });
+  Object.defineProperty(this, "speedFactor", { value: 0, writable: true });
+  Object.defineProperty(this, "speed", { value: 0, writable: true });
+  Object.defineProperty(this, "orbitalRadiusBase", {
+    value: vo.orbitalRadius,
+    writable: true,
   });
-})(jQuery);
+  Object.defineProperty(this, "orbitalRadius", {
+    value: vo.orbitalRadius,
+    writable: true,
+  });
+  Object.defineProperty(this, "parentSystem", {
+    value: vo.parentSystem,
+    writable: true,
+  });
+  Object.defineProperty(this, "parentBody", {
+    value: vo.parentBody,
+    writable: true,
+  });
+  this.setSpeedFactor(speedFactor);
+  this.orbitalRadius = vo.orbitalRadius * orbitalScalingFactor;
+  return this;
+};
+PlanetaryBody.prototype.setorbitalRadius = function () {
+  this.orbitalRadius = this.orbitalRadiusBase * orbitalScalingFactor;
+};
+PlanetaryBody.prototype.setSpeedFactor = function (value) {
+  this.speedFactor = value;
+  this.speed = this.speedFactor / this.speedBase;
+};
+PlanetaryBody.prototype.update = function () {
+  let angle = this.degrees * PI180;
+  this.degrees += this.speed;
+  this.vx = this.orbitalRadius * mcos(angle);
+  this.vy = this.orbitalRadius * msin(angle);
+  if (this.parentBody != null) {
+    this.x = this.vx + this.parentBody.x;
+    this.y = this.vy + this.parentBody.y;
+  }
+};
+
+function createCanvas(id, w, h) {
+  var tCanvas = document.createElement("canvas");
+  tCanvas.width = w;
+  tCanvas.height = h;
+  tCanvas.id = id;
+  return tCanvas;
+}
+
+function init() {
+  wrapper = document.getElementById("stage");
+  canvas = createCanvas("canvas", width, height);
+  wrapper.appendChild(canvas);
+  ctx = canvas.getContext("2d");
+  createList();
+
+  /* Define new PlanetarySystem and set values */
+  let year = 365.26;
+  system = new PlanetarySystem();
+  system.x = width * 0.5;
+  system.y = height * 0.5;
+  system.addBody({ id: "sun", speed: 1, orbitalRadius: 0, parentBody: null });
+  system.addBody({
+    id: "mercury",
+    speed: 87.97,
+    orbitalRadius: 57950000,
+    parentBody: "sun",
+  });
+  system.addBody({
+    id: "venus",
+    speed: 224.7,
+    orbitalRadius: 108110000,
+    parentBody: "sun",
+  });
+  system.addBody({
+    id: "earth",
+    speed: year,
+    orbitalRadius: 149570000,
+    parentBody: "sun",
+  });
+  system.addBody({
+    id: "mars",
+    speed: year * 1.88,
+    orbitalRadius: 227840000,
+    parentBody: "sun",
+  });
+  system.addBody({
+    id: "jupiter",
+    speed: year * 11.86,
+    orbitalRadius: 778140000,
+    parentBody: "sun",
+  });
+  system.addBody({
+    id: "saturn",
+    speed: year * 29.46,
+    orbitalRadius: 1427000000,
+    parentBody: "sun",
+  });
+  system.addBody({
+    id: "uranus",
+    speed: year * 84.01,
+    orbitalRadius: 2870300000,
+    parentBody: "sun",
+  });
+
+  setupEvents();
+  resizeCanvas();
+}
+
+function setupEvents() {
+  window.onresize = resizeCanvas;
+}
+
+function resizeCanvas() {
+  let rect = wrapper.getBoundingClientRect();
+  width = window.innerWidth;
+  height = window.innerHeight - rect.top - 12;
+  canvas.width = width;
+  canvas.height = height;
+  system.x = width * 0.5;
+  system.y = height * 0.5;
+
+  ctx.strokeStyle = "#fff";
+  ctx.fillStyle = "#bd5";
+  ctx.lineWidth = 0.1;
+  clearCanvas();
+}
+function clearCanvas() {
+  ctx.clearRect(0, 0, width, height);
+}
+function drawconnections() {
+  ctx.beginPath();
+  ctx.moveTo(system.allBodies[planet1].x, system.allBodies[planet1].y);
+  ctx.lineTo(system.allBodies[planet2].x, system.allBodies[planet2].y);
+  ctx.stroke();
+}
+function animate() {
+  system.update();
+  drawconnections();
+  requestAnimationFrame(animate);
+}
+init();
+animate();

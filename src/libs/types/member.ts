@@ -16,6 +16,7 @@ export interface Member {
   memberPoints: number;
   memberFirstName?: string;
   memberLastName?: string;
+  memberEmail?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -32,6 +33,7 @@ export interface MemberInput {
   memberPoints?: number;
   memberFirstName?: string;
   memberLastName?: string;
+  memberEmail?: string;
 }
 
 export interface MemberUpdateInput {

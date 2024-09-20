@@ -32,7 +32,6 @@ memberController.getRestaurant = async (req: Request, res: Response) => {
 memberController.signup = async (req: Request, res: Response) => {
   try {
     console.log("SignUp");
-
     const input: MemberInput = req.body,
       result: Member = await memberService.signup(input);
 
@@ -58,7 +57,7 @@ memberController.login = async (req: Request, res: Response) => {
     const input: LoginInput = req.body,
       result: Member = await memberService.login(input);
 
-    //TODO: TOKENS AUTHENTICATION
+    // TOKENS AUTHENTICATION
     const token = await authService.createToken(result);
     res.cookie("accessToken", token, {
       maxAge: AUTH_TIMER * 3600 * 1000,
@@ -84,6 +83,7 @@ memberController.logout = (req: ExtendedRequest, res: Response) => {
     else res.status(Errors.standard.code).json(Errors.standard);
   }
 };
+
 memberController.getMemberDetail = async (
   req: ExtendedRequest,
   res: Response
@@ -98,6 +98,7 @@ memberController.getMemberDetail = async (
     else res.status(Errors.standard.code).json(Errors.standard);
   }
 };
+
 memberController.updateMember = async (req: ExtendedRequest, res: Response) => {
   try {
     console.log("updateMember");
@@ -112,10 +113,10 @@ memberController.updateMember = async (req: ExtendedRequest, res: Response) => {
     else res.status(Errors.standard.code).json(Errors.standard);
   }
 };
+
 memberController.getTopUsers = async (req: Request, res: Response) => {
   try {
     console.log("getTopUsers");
-
     const result = await memberService.getTopUsers();
     res.status(HttpCode.OK).json(result);
   } catch (err) {
@@ -135,7 +136,6 @@ memberController.verifyAuth = async (
     if (token) {
       req.member = await authService.checkAuth(token);
     }
-
     if (!req.member)
       throw new Errors(HttpCode.UNAUTHORIZED, Message.NOT_AUTHENTICATED);
 

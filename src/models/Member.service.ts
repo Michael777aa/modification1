@@ -21,7 +21,7 @@ class MemberService {
 
   public async getRestaurant(): Promise<Member> {
     const result = await this.memberModel
-      .findOne({ memberType: MemberType.RESTAURANT })
+      .findOne({ memberType: MemberType.OWNER })
       .lean()
       .exec();
     if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
@@ -29,20 +29,30 @@ class MemberService {
   }
 
   public async signup(input: MemberInput): Promise<Member> {
+    if (
+      !input.memberEmail ||
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.memberEmail)
+    )
+      throw new Errors(HttpCode.BAD_REQUEST, Message.WRONG_EMAIL);
     const salt = await bcrypt.genSalt();
     input.memberPassword = await bcrypt.hash(input.memberPassword, salt);
 
     try {
       const result = await this.memberModel.create(input);
       result.memberPassword = "";
+
       return result.toJSON();
     } catch (err) {
       console.error("Error, model: signup", err);
-      throw new Errors(HttpCode.BAD_REQUEST, Message.USED_NICK_PHONE);
+      throw new Errors(HttpCode.BAD_REQUEST, Message.CREATE_FAILED);
     }
   }
 
   public async login(input: LoginInput): Promise<Member> {
+    if (!input.memberNick || !input.memberPassword) {
+      throw new Errors(HttpCode.BAD_REQUEST, Message.NO_DATA_FOUND);
+    }
+
     const member = await this.memberModel
       .findOne(
         {

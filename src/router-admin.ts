@@ -1,52 +1,89 @@
 import express from "express";
-import restaurantController from "./controllers/restaurant.controller";
 import productController from "./controllers/product.controller";
 import makeUploader from "./libs/utils/uploader";
-/** RESTAURANT SECTION */
+import eventController from "./controllers/event.controller";
+import shopController from "./controllers/shop.controller";
+import couponController from "./controllers/coupon.Controller";
+
 const routerAdmin = express.Router();
 
-routerAdmin.get("/", restaurantController.goHome);
-
-routerAdmin.get("/check-me", restaurantController.checkAuthSession);
-
-routerAdmin
-  .get("/login", restaurantController.getLogin)
-  .post("/login", restaurantController.processLogin);
+/**  SHOP ROUTERS **/
+routerAdmin.get("/", shopController.goHome);
+routerAdmin.get("/check-me", shopController.checkAuthSession);
 
 routerAdmin
-  .get("/signup", restaurantController.getSignup)
+  .get("/login", shopController.getLogin)
+  .post("/login", shopController.processLogin);
 
+routerAdmin
+  .get("/signup", shopController.getSignup)
   .post(
     "/signup",
     makeUploader("members").single("memberImage"),
-    restaurantController.processSignup
+    shopController.processSignup
   );
+routerAdmin.get("/logout", shopController.logout);
 
-routerAdmin.get("/logout", restaurantController.logout);
-
-/** PRODUCT */
-
+/** PRODUCT ROUTERS **/
 routerAdmin.get(
   "/product/all",
-  restaurantController.verifyRestaurant,
+  shopController.verifyRestaurant,
   productController.getAllProducts
-); // middleware is used
+);
 routerAdmin.post(
   "/product/create",
-  restaurantController.verifyRestaurant,
+  shopController.verifyRestaurant,
   makeUploader("products").array("productImages", 5),
   productController.createNewProduct
 );
 routerAdmin.post(
   "/product/:id",
-  restaurantController.verifyRestaurant,
+  shopController.verifyRestaurant,
   productController.updateChosenProduct
 );
 
-/** USER */
+/** EVENT ROUTERS **/
+routerAdmin.get(
+  "/event/all",
+  shopController.verifyRestaurant,
+  eventController.getAllEvents
+);
 
-routerAdmin.get("/user/all", restaurantController.verifyRestaurant, restaurantController.getUsers);
-routerAdmin.post("/user/edit", restaurantController.verifyRestaurant, restaurantController.updateChosenUser);
+routerAdmin.post(
+  "/event/create",
+  shopController.verifyRestaurant,
+  makeUploader("events").array("eventImages", 5),
+  eventController.createNewEvent
+);
 
+routerAdmin.post(
+  "/event/:id",
+  shopController.verifyRestaurant,
+  eventController.updateChosenEvent
+);
 
+/** USER ROUTERS **/
+routerAdmin.get(
+  "/user/all",
+  shopController.verifyRestaurant,
+  shopController.getUsers
+);
+routerAdmin.post(
+  "/user/edit",
+  shopController.verifyRestaurant,
+  shopController.updateChosenUser
+);
+
+/** COUPON ROUTERS **/
+routerAdmin.post(
+  "/coupanCreate",
+  shopController.verifyRestaurant,
+  couponController.createCoupon
+);
+
+routerAdmin.get(
+  "/coupanCreate",
+  shopController.verifyRestaurant,
+  couponController.getAllCoupons
+);
 export default routerAdmin;

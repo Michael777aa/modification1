@@ -12,26 +12,25 @@ import {
 import { ObjectId } from "mongoose";
 import MemberService from "./Member.service";
 import { OrderStatus } from "../libs/enums/order.enum";
+import ProductModel from "../schema/Product.model";
 
 class OrderService {
-  private readonly orderModel;
-  private readonly orderItemModel;
-  private readonly memberService;
-
-  constructor() {
-    this.orderModel = OrderModel;
-    this.orderItemModel = OrderItemModel;
-    this.memberService = new MemberService();
-  }
+  private readonly orderModel = OrderModel;
+  private readonly orderItemModel = OrderItemModel;
+  private readonly productModel = ProductModel;
+  private readonly memberService = new MemberService();
 
   public async createOrder(
     member: Member,
     input: OrderItemInput[]
   ): Promise<Order> {
     const memberId = shapeIntoMongooseObjectId(member._id);
-    const amount = input.reduce((accumulator: number, item: OrderItemInput) => {
-      return accumulator + item.itemPrice * item.itemQuantity;
-    }, 0);
+
+    // Calculate total amount if more than 100
+    const amount = input.reduce(
+      (accumulator, item) => accumulator + item.itemPrice * item.itemQuantity,
+      0
+    );
     const delivery = amount < 100 ? 5 : 0;
 
     try {
@@ -42,11 +41,35 @@ class OrderService {
       });
 
       const orderId = newOrder._id;
+
       await this.recordOrderItem(orderId, input);
+
+      for (const item of input) {
+        const productId = shapeIntoMongooseObjectId(item.productId);
+        const product = await this.productModel.findById(productId).exec();
+
+        if (!product)
+          throw new Errors(HttpCode.NOT_FOUND, Message.CREATE_FAILED);
+
+        const leftAmount = product.productLeftCount - item.itemQuantity;
+        const soldAmount = product.productSold + item.itemQuantity;
+
+        if (leftAmount < 0)
+          throw new Errors(HttpCode.NOT_FOUND, Message.CREATE_FAILED);
+
+        await this.productModel
+          .findByIdAndUpdate(
+            productId,
+            { productLeftCount: leftAmount, productSold: soldAmount },
+            { new: true }
+          )
+          .lean()
+          .exec();
+      }
 
       return newOrder;
     } catch (err) {
-      console.error("Error, model: createOrder", err);
+      console.error("Error in createOrder:", err);
       throw new Errors(HttpCode.BAD_REQUEST, Message.CREATE_FAILED);
     }
   }
@@ -55,15 +78,13 @@ class OrderService {
     orderId: ObjectId,
     input: OrderItemInput[]
   ): Promise<void> {
-    const promisedList = input.map(async (item: OrderItemInput) => {
+    const promisedList = input.map(async (item) => {
       item.orderId = orderId;
       item.productId = shapeIntoMongooseObjectId(item.productId);
-
       await this.orderItemModel.create(item);
       return "INSERTED";
     });
 
-    console.log("promisedList:", promisedList);
     const orderItemsState = await Promise.all(promisedList);
     console.log("Order items state:", orderItemsState);
   }
@@ -128,8 +149,10 @@ class OrderService {
 
       if (!result)
         throw new Errors(HttpCode.NOT_MODIFIED, Message.UPDATE_FAILED);
-      if (orderStatus === OrderStatus.PROCESS)
+
+      if (orderStatus === OrderStatus.PROCESS) {
         await this.memberService.addUserPoint(member, 1);
+      }
 
       return result;
     } catch (error) {

@@ -1,3 +1,9 @@
+export enum ProductSize {
+  FirstClass = "FirstClass",
+  SecondClass = "SecondClass",
+  ThirdClass = "ThirdClass",
+}
+
 export enum ProductStatus {
   PAUSE = "PAUSE",
   PROCESS = "PROCESS",
@@ -6,9 +12,9 @@ export enum ProductStatus {
 }
 
 export enum ProductCollection {
-  ENGLISH = "ENGLISH",
-  KOREAN = "KOREAN",
-  ARABIC = "ARABIC",
-  UZBEK = "UZBEK",
+  FRUITS = "FRUITS",
+  VEGETABLES = "VEGETABLES",
+  SWEETS = "SWEETS",
+  MEAT = "MEAT",
   OTHER = "OTHER",
 }
