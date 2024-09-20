@@ -1,3 +1,4 @@
+import { EventStatus } from "../libs/enums/event.enum";
 import { shapeIntoMongooseObjectId } from "../libs/config";
 import Errors, { HttpCode, Message } from "../libs/Error";
 import { EventInput, EventUpdateInput } from "../libs/types/event";
@@ -13,7 +14,9 @@ class EventService {
           SPA
   **********************/
   public async getEvents(): Promise<Event[]> {
-    const result = await this.eventModel.find().exec();
+    const result = await this.eventModel
+      .find({ eventStatus: EventStatus.PROCESS })
+      .exec();
     if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
     return result;
   }
