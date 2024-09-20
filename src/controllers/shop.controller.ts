@@ -32,7 +32,6 @@ shopController.getSignup = (req: Request, res: Response) => {
 shopController.getLogin = (req: Request, res: Response) => {
   try {
     console.log("getLogin");
-
     res.render("login");
   } catch (err) {
     console.log("Error, getLogin:", err);

@@ -86,10 +86,10 @@ td {
 
 /* Form Styles */
 form {
-  margin-top: 40px;
-  padding: 20px;
   background-color: #f8f9fa;
   border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 50px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   width: 100%;
 }
@@ -152,4 +152,7 @@ form button:hover {
   position: relative;
   width: 180px;
   height: 40px;
+}
+.sale-exceed {
+  font-size: 20px;
 }

@@ -1,10 +1,11 @@
 import express from "express";
-const router = express.Router();
 import memberController from "./controllers/member.controller";
 import uploader from "./libs/utils/uploader";
 import productController from "./controllers/product.controller";
 import orderController from "./controllers/order.controller";
 import eventController from "./controllers/event.controller";
+const router = express.Router();
+
 /** Member **/
 router.get("/member/restaurant", memberController.getRestaurant);
 router.post("/member/signup", memberController.signup);
@@ -39,7 +40,6 @@ router.get(
 );
 
 /** Order **/
-
 router.post(
   "/order/create",
   memberController.verifyAuth,
@@ -55,4 +55,5 @@ router.post(
   memberController.verifyAuth,
   orderController.updateOrder
 );
+
 export default router;

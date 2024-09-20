@@ -17,8 +17,8 @@ import ProductModel from "../schema/Product.model";
 class OrderService {
   private readonly orderModel = OrderModel;
   private readonly orderItemModel = OrderItemModel;
-  private readonly memberService = new MemberService();
   private readonly productModel = ProductModel;
+  private readonly memberService = new MemberService();
 
   public async createOrder(
     member: Member,
@@ -26,7 +26,7 @@ class OrderService {
   ): Promise<Order> {
     const memberId = shapeIntoMongooseObjectId(member._id);
 
-    // Calculate total amount
+    // Calculate total amount if more than 100
     const amount = input.reduce(
       (accumulator, item) => accumulator + item.itemPrice * item.itemQuantity,
       0

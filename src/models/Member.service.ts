@@ -33,7 +33,7 @@ class MemberService {
       !input.memberEmail ||
       !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.memberEmail)
     )
-      throw new Errors(HttpCode.BAD_REQUEST, Message.CREATE_FAILED);
+      throw new Errors(HttpCode.BAD_REQUEST, Message.WRONG_EMAIL);
     const salt = await bcrypt.genSalt();
     input.memberPassword = await bcrypt.hash(input.memberPassword, salt);
 

@@ -27,7 +27,6 @@ app.use(cookieParser());
 app.use(morgan(MORGAN_FORMAT));
 
 // 2-SESSIONS
-
 app.use(
   session({
     secret: String(process.env.SESSION_SECRET),
@@ -50,7 +49,7 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
 // 4-ROUTERS
-app.use("/admin", routerAdmin); // BSSR:EJS
-app.use("/", router); // SPA: REACT
+app.use("/admin", routerAdmin); //BSSR
+app.use("/", router); //SPA
 
 export default app;

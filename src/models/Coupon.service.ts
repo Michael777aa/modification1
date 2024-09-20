@@ -17,12 +17,11 @@ class CouponService {
   public async createCoupon(input: CoupanInput) {
     try {
       const words = ["Fresh", "Savory", "Delicious", "Tasty", "Sweet"];
-      input.name = `Coupon-${Array.from(
-        { length: 2 },
-        () => words[Math.floor(Math.random() * words.length)]
-      ).join("-")}`;
-
-      console.log("Coupon data received:", input);
+      let randomWords = [];
+      for (let i = 0; i < 6; i++) {
+        randomWords.push(words[Math.floor(Math.random() * words.length)]);
+      }
+      input.name = `Coupon-${randomWords.join("-")}`;
       const salt = await bcrypt.genSalt();
       input.name = await bcrypt.hash(input.name, salt);
 
@@ -31,8 +30,8 @@ class CouponService {
       }
 
       return await this.couponModel.create(input);
-    } catch (error) {
-      console.error("Error in createCoupon:", error);
+    } catch (err) {
+      console.error("Error in createCoupon:", err);
       throw new Errors(HttpCode.BAD_REQUEST, Message.CREATE_FAILED);
     }
   }
@@ -47,14 +46,12 @@ class CouponService {
     try {
       const now = moment().startOf("day").toDate();
       await this.couponModel.deleteMany({ expiry: { $lt: now } });
-      console.log("Expired coupons removed.");
     } catch (error) {
       console.error("Error removing expired coupons:", error);
     }
   }
 
   private scheduleCouponCleanup() {
-    // Schedule the task to run daily at midnight
     cron.schedule("0 0 * * *", () => {
       console.log("Running scheduled coupon cleanup.");
       this.deleteExpiredCoupons();

@@ -4,11 +4,11 @@ import makeUploader from "./libs/utils/uploader";
 import eventController from "./controllers/event.controller";
 import shopController from "./controllers/shop.controller";
 import couponController from "./controllers/coupon.Controller";
-/** RESTAURANT SECTION */
+
 const routerAdmin = express.Router();
 
+/**  SHOP ROUTERS **/
 routerAdmin.get("/", shopController.goHome);
-
 routerAdmin.get("/check-me", shopController.checkAuthSession);
 
 routerAdmin
@@ -17,22 +17,19 @@ routerAdmin
 
 routerAdmin
   .get("/signup", shopController.getSignup)
-
   .post(
     "/signup",
     makeUploader("members").single("memberImage"),
     shopController.processSignup
   );
-
 routerAdmin.get("/logout", shopController.logout);
 
-/** PRODUCT */
-
+/** PRODUCT ROUTERS **/
 routerAdmin.get(
   "/product/all",
   shopController.verifyRestaurant,
   productController.getAllProducts
-); // middleware is used
+);
 routerAdmin.post(
   "/product/create",
   shopController.verifyRestaurant,
@@ -45,7 +42,7 @@ routerAdmin.post(
   productController.updateChosenProduct
 );
 
-/** EVENT */
+/** EVENT ROUTERS **/
 routerAdmin.get(
   "/event/all",
   shopController.verifyRestaurant,
@@ -64,8 +61,8 @@ routerAdmin.post(
   shopController.verifyRestaurant,
   eventController.updateChosenEvent
 );
-/** USER */
 
+/** USER ROUTERS **/
 routerAdmin.get(
   "/user/all",
   shopController.verifyRestaurant,
@@ -77,12 +74,7 @@ routerAdmin.post(
   shopController.updateChosenUser
 );
 
-// COUPON
-// routerAdmin.get(
-//   "/coupanCreate",
-//   shopController.verifyRestaurant,
-//   couponController.getCoupon
-// );
+/** COUPON ROUTERS **/
 routerAdmin.post(
   "/coupanCreate",
   shopController.verifyRestaurant,

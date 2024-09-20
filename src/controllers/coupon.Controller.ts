@@ -7,19 +7,9 @@ import Errors, { Message } from "../libs/Error";
 const couponService = new CouponService();
 const couponController: T = {};
 
-// couponController.getCoupon = (req: AdminRequest, res: Response) => {
-//   try {
-//     console.log("getCoupon");
-//     res.render("Coupon", { result: null });
-//   } catch (err) {
-//     console.log("Error, getCoupon:", err);
-//   }
-// };
-
 couponController.getAllCoupons = async (req: Request, res: Response) => {
   try {
     console.log("getAllCoupons");
-
     const data = await couponService.getAllCoupons();
     res.render("Coupon", { coupons: data });
   } catch (err) {
@@ -30,16 +20,7 @@ couponController.getAllCoupons = async (req: Request, res: Response) => {
 };
 couponController.createCoupon = async (req: AdminRequest, res: Response) => {
   try {
-    // Validate if necessary fields exist
-    const { name, expiry, discount } = req.body;
-    if (!name || !expiry || !discount) {
-      throw new Error("All fields are required: name, expiry, discount");
-    }
-
-    // Pass data to the service for creation
-    const newCoupon = await couponService.createCoupon(req.body);
-
-    // Render the view with the result
+    await couponService.createCoupon(req.body);
     res.send(
       `<script> alert("Sucessfully creation!"); window.location.replace('/admin/coupanCreate');</script>`
     );

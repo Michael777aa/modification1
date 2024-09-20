@@ -33,7 +33,37 @@
   <div class="home-container">
     <header>
       <div class="welcome">
+        <h1>Create a New Coupon</h1>
+
+        <form action="/admin/coupanCreate" method="POST">
+          <label for="name">Coupon Name:</label>
+
+          <input type="text" id="name" name="name" required />
+          <button
+            class="random-button"
+            type="button"
+            onclick="generateCouponName()"
+          >
+            Generator</button
+          ><br />
+
+          <label for="expiry">Expiry Date:</label>
+          <input type="date" id="expiry" name="expiry" required /><br />
+
+          <label class="sale-exceed" for="discount"
+            >Discount:
+            <span style="margin-left: 10px;"
+              >Coupon cannot exceed 100!</span
+            ></label
+          >
+
+          <input type="number" id="discount" name="discount" required /><br />
+
+          <button type="submit">Create Coupon</button>
+        </form>
         <table class="table table-bordered table-hover">
+          <h3 style="margin-bottom: 10px;">All Coupon List</h3>
+
           <thead class="thead-light">
             <tr class="thead-light">
               <th scope="col">№</th>
@@ -55,27 +85,6 @@
           <% }) %>
           <!-- LOOP COUPONS: END -->
         </table>
-        <h1>Create a New Coupon</h1>
-
-        <form action="/admin/coupanCreate" method="POST">
-          <label for="name">Coupon Name:</label>
-          <input type="text" id="name" name="name" required />
-          <button
-            class="random-button"
-            type="button"
-            onclick="generateCouponName()"
-          >
-            Generator</button
-          ><br />
-
-          <label for="expiry">Expiry Date:</label>
-          <input type="date" id="expiry" name="expiry" required /><br />
-
-          <label for="discount">Discount:</label>
-          <input type="number" id="discount" name="discount" required /><br />
-
-          <button type="submit">Create Coupon</button>
-        </form>
       </div>
     </header>
   </div>
