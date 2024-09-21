@@ -22,7 +22,8 @@ class OrderService {
 
   public async createOrder(
     member: Member,
-    input: OrderItemInput[]
+    input: OrderItemInput[],
+    totalPrice: number | undefined
   ): Promise<Order> {
     const memberId = shapeIntoMongooseObjectId(member._id);
 
@@ -35,7 +36,7 @@ class OrderService {
 
     try {
       const newOrder = await this.orderModel.create({
-        orderTotal: amount,
+        orderTotal: totalPrice ? totalPrice.toFixed(1) : amount,
         orderDelivery: delivery,
         memberId: memberId,
       });

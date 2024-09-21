@@ -14,7 +14,15 @@ orderController.createOrder = async (req: ExtendedRequest, res: Response) => {
     console.log("createOrder");
 
     const orderItems = req.body;
-    const result = await orderService.createOrder(req.member, orderItems);
+    const totalPrice = orderItems[0].totalPrice;
+
+    console.log("TOTAL PRICE ", req.body);
+
+    const result = await orderService.createOrder(
+      req.member,
+      orderItems,
+      totalPrice
+    );
 
     res.status(HttpCode.CREATED).json(result);
   } catch (err) {

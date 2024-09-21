@@ -28,6 +28,7 @@ export interface OrderItemInput {
   itemPrice: number;
   productId: ObjectId;
   orderId?: ObjectId;
+  totalPrice?: number;
 }
 
 export interface OrderInquiry {

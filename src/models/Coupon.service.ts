@@ -25,6 +25,10 @@ class CouponService {
     return result;
   }
 
+  /**********************   
+          BSSR
+  **********************/
+
   public async createCoupon(input: CoupanInput) {
     try {
       input.name = `Coupon-${uuidv4()}`; // Generate unique coupon name
@@ -56,7 +60,7 @@ class CouponService {
   }
 
   private scheduleCouponCleanup() {
-    cron.schedule("0 0 * * *", () => {
+    cron.schedule("04 * * * *", () => {
       console.log("Running scheduled coupon cleanup.");
       this.deleteExpiredCoupons();
     });

@@ -1,11 +1,11 @@
 export interface Coupan {
   name: string;
   expiry: Date;
-  discount: Number;
+  discount: number;
 }
 
 export interface CoupanInput {
   name: string;
   expiry: Date;
-  discount: Number;
+  discount: number;
 }
