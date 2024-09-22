@@ -31,7 +31,7 @@ class CouponService {
 
   public async createCoupon(input: CoupanInput) {
     try {
-      input.name = `Coupon-${uuidv4()}`; // Generate unique coupon name
+      input.name = `Coupon-${uuidv4()}`;
 
       if (Number(input.discount) > 100) {
         throw new Error("Discount cannot exceed 100%");

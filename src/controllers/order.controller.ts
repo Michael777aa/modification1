@@ -15,13 +15,14 @@ orderController.createOrder = async (req: ExtendedRequest, res: Response) => {
 
     const orderItems = req.body;
     const totalPrice = orderItems[0].totalPrice;
-
-    console.log("TOTAL PRICE ", req.body);
+    const couponName = orderItems[0].couponName;
+    console.log("TOTAL PRICE ", couponName);
 
     const result = await orderService.createOrder(
       req.member,
       orderItems,
-      totalPrice
+      totalPrice,
+      couponName
     );
 
     res.status(HttpCode.CREATED).json(result);

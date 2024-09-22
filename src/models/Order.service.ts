@@ -13,17 +13,20 @@ import { ObjectId } from "mongoose";
 import MemberService from "./Member.service";
 import { OrderStatus } from "../libs/enums/order.enum";
 import ProductModel from "../schema/Product.model";
+import couponModel from "../schema/couponModel";
 
 class OrderService {
   private readonly orderModel = OrderModel;
   private readonly orderItemModel = OrderItemModel;
   private readonly productModel = ProductModel;
+  private readonly couponModel = couponModel;
   private readonly memberService = new MemberService();
 
   public async createOrder(
     member: Member,
     input: OrderItemInput[],
-    totalPrice: number | undefined
+    totalPrice: number | undefined,
+    couponName: string | undefined
   ): Promise<Order> {
     const memberId = shapeIntoMongooseObjectId(member._id);
 
@@ -33,14 +36,17 @@ class OrderService {
       0
     );
     const delivery = amount < 100 ? 5 : 0;
+    console.log(couponName, "COUOPAN SERVICE");
 
     try {
       const newOrder = await this.orderModel.create({
-        orderTotal: totalPrice ? totalPrice.toFixed(1) : amount,
+        orderTotal: totalPrice ? totalPrice.toFixed(1) : amount.toFixed(1),
         orderDelivery: delivery,
         memberId: memberId,
       });
-
+      if (couponName) {
+        await this.couponModel.findOneAndDelete({ name: couponName }).exec();
+      }
       const orderId = newOrder._id;
 
       await this.recordOrderItem(orderId, input);
