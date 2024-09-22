@@ -19,8 +19,10 @@ class CouponService {
   /**********************   
           SPA
   **********************/
-  public async getCoupons(): Promise<Coupan[]> {
-    const result = await this.couponModel.find().exec();
+  public async verifyCoupon(coupon: CoupanInput): Promise<Coupan> {
+    const result = await this.couponModel
+      .findOne({ name: coupon.name.trim() })
+      .exec();
     if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
     return result;
   }

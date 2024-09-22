@@ -10,24 +10,6 @@ const couponController: T = {};
 /**********************   
           SPA
 **********************/
-couponController.getCoupons = async (req: Request, res: Response) => {
-  try {
-    console.log("getCoupons");
-    // Call the service method instead of itself
-    const data = await couponService.getCoupons();
-
-    res.status(HttpCode.OK).json(data);
-  } catch (err) {
-    console.log("Error in getCoupons", err);
-    if (err instanceof Errors) {
-      res.status(err.code).json({ message: err.message });
-    } else {
-      res.status(Errors.standard.code).json({
-        message: Errors.standard.message,
-      });
-    }
-  }
-};
 
 /**********************   
           BSSR
@@ -49,6 +31,24 @@ couponController.createCoupon = async (req: AdminRequest, res: Response) => {
     res.send(
       `<script> alert("Sucessfully creation!"); window.location.replace('/admin/coupanCreate');</script>`
     );
+  } catch (err) {
+    console.log("Error, createNewProduct", err);
+    const message =
+      err instanceof Errors ? err.message : Message.SOMETHING_WENT_WRONG;
+    res.send(
+      `<script>alert("${message}"); window.location.replace("/admin/coupanCreate")</script>`
+    );
+  }
+};
+couponController.verifyCoupon = async (req: AdminRequest, res: Response) => {
+  try {
+    console.log("RESULT", req.body);
+    const coupon: string = req.body.name;
+    console.log(coupon, "CHECK BACKEND");
+
+    const result = await couponService.verifyCoupon(req.body);
+
+    res.status(200).json(result);
   } catch (err) {
     console.log("Error, createNewProduct", err);
     const message =

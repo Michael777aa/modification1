@@ -34,7 +34,7 @@ router.post(
 router.get("/member/top-users", memberController.getTopUsers);
 router.get("/product/all", productController.getProducts);
 router.get("/event/all", eventController.getEvents);
-router.get("/coupanCreate", couponController.getCoupons);
+
 router.get(
   "/product/:id",
   memberController.retrieveAuth,
@@ -52,10 +52,18 @@ router.get(
   memberController.verifyAuth,
   orderController.getMyOrders
 );
+
 router.post(
   "/order/update",
   memberController.verifyAuth,
   orderController.updateOrder
+);
+
+/** Coupon **/
+router.post(
+  "/coupon/verify",
+  memberController.verifyAuth,
+  couponController.verifyCoupon
 );
 
 export default router;

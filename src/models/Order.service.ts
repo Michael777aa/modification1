@@ -36,7 +36,6 @@ class OrderService {
       0
     );
     const delivery = amount < 100 ? 5 : 0;
-    console.log(couponName, "COUOPAN SERVICE");
 
     try {
       const newOrder = await this.orderModel.create({
@@ -45,7 +44,9 @@ class OrderService {
         memberId: memberId,
       });
       if (couponName) {
-        await this.couponModel.findOneAndDelete({ name: couponName }).exec();
+        await this.couponModel
+          .findOneAndDelete({ name: couponName.trim() })
+          .exec();
       }
       const orderId = newOrder._id;
 

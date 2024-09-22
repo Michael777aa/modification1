@@ -14,9 +14,12 @@ orderController.createOrder = async (req: ExtendedRequest, res: Response) => {
     console.log("createOrder");
 
     const orderItems = req.body;
+    console.log(req.body, "Req Npdy");
+
     const totalPrice = orderItems[0].totalPrice;
     const couponName = orderItems[0].couponName;
-    console.log("TOTAL PRICE ", couponName);
+    console.log("TOTAL PRICE ", totalPrice);
+    console.log(couponName, "coupon name");
 
     const result = await orderService.createOrder(
       req.member,
@@ -39,16 +42,13 @@ orderController.createOrder = async (req: ExtendedRequest, res: Response) => {
 orderController.getMyOrders = async (req: ExtendedRequest, res: Response) => {
   try {
     console.log("getMyOrders");
-
     const { page, limit, orderStatus } = req.query;
     const inquiry: OrderInquiry = {
       page: Number(page),
       limit: Number(limit),
       orderStatus: orderStatus as OrderStatus,
     };
-
     const result = await orderService.getMyOrders(req.member, inquiry);
-
     res.status(HttpCode.OK).json(result);
   } catch (err) {
     console.log("Error, getMyOrders:", err);
